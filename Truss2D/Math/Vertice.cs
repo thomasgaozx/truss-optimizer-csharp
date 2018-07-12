@@ -12,6 +12,8 @@ namespace Truss2D.Math
 
         public Vertice(decimal x, decimal y) : base(x, y) { }
 
+        public Vertice(Vertice vertice) : this(vertice.X, vertice.Y) { }
+
         #region Overridden
 
         public override bool Equals(object obj)

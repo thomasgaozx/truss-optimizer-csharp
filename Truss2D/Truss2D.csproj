@@ -44,7 +44,6 @@
   <ItemGroup>
     <Compile Include="Force.cs" />
     <Compile Include="Heap\MinHeap.cs" />
-    <Compile Include="IForce.cs" />
     <Compile Include="Joint.cs" />
     <Compile Include="Math\Base2D.cs" />
     <Compile Include="Math\Edge.cs" />

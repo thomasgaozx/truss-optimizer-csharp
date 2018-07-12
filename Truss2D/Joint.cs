@@ -13,19 +13,18 @@ namespace Truss2D
         private List<Joint> neighbours; 
         // used to get the internal force information from truss ADT
 
-        // ADT: { Edge : IForce }; ==> get magnitude AND direction
+        // ADT: { Edge : Force }; ==> get magnitude AND direction
         // Actually, unknown force is just null
-        private List<IForce> reactions;
+        private List<Force> reactions;
 
         public IReadOnlyCollection<Joint> Neightbours { get => neighbours.AsReadOnly(); }
         
         // Must not be unsolved, if not solved, throw an exception while adding
-        public IReadOnlyCollection<IForce> Reactions { get => reactions; }
+        public IReadOnlyCollection<Force> Reactions { get => reactions; }
         
         public void AddNeighbour(Joint neighbour)
         {
             neighbours.Add(neighbour);
-            Unknowns++;
         }
 
         public void AddReactions(Force force)
@@ -33,19 +32,26 @@ namespace Truss2D
             if (force.IsUnknown())
                 throw new Exception("Force is unknown");
             reactions.Add(force);
-            ++Knowns;
         }
 
-        public int Knowns { get; private set; }
-        public int Unknowns { get; private set; }
+        public override bool Equals(object obj)
+        {
+            var joint = obj as Joint;
+            return joint != null &&
+                   base.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
 
         public Joint(decimal x, decimal y) : base(x, y)
         {
             neighbours = new List<Joint>();
-            reactions = new List<IForce>();
-
-            Knowns = 0;
-            Unknowns = 0;
+            reactions = new List<Force>();
         }
+
+        public Joint(Vertice v) : this(v.X, v.Y) { }
     }
 }
