@@ -48,11 +48,13 @@
     <Compile Include="Joint.cs" />
     <Compile Include="Math\Base2D.cs" />
     <Compile Include="Math\Edge.cs" />
+    <Compile Include="Math\Matrix.cs" />
     <Compile Include="Math\UnitVector.cs" />
     <Compile Include="Math\Vector.cs" />
     <Compile Include="Math\Vertice.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Solver.cs" />
     <Compile Include="Truss.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -49,7 +49,7 @@ namespace Truss2D.Math
         /// </summary>
         /// <param name="vectors"></param>
         /// <param name="known"></param>
-        public Matrix(List<Vector> vectors, Vector known)
+        public Matrix(IList<Vector> vectors, Vector known)
         {
             M = 2;
             N = vectors.Count+1;

@@ -24,6 +24,12 @@ namespace Truss2D.Math
             Y += dir.Y;
         }
 
+        public void Scale(decimal constant)
+        {
+            X *= constant;
+            Y *= constant;
+        }
+
         public decimal Dot(Vector dir)
         {
             return X * dir.X + Y * dir.Y;
@@ -42,6 +48,8 @@ namespace Truss2D.Math
         public Vector() : base() { }
 
         public Vector(decimal x, decimal y) : base(x, y) { }
+
+        public Vector(Vector another) : this(another.X, another.Y) { }
 
     }
 }

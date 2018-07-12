@@ -11,7 +11,11 @@ namespace Truss2D.Math
         public decimal X { get; protected set; }
         public decimal Y { get; protected set; }
 
-        public Base2D() { }
+        public Base2D()
+        {
+            X = 0;
+            Y = 0;
+        }
         public Base2D(decimal x, decimal y)
         {
             X = x;

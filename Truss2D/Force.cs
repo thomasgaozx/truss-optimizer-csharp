@@ -7,30 +7,31 @@ using Truss2D.Math;
 
 namespace Truss2D
 {
-    public class Force : IForce
+    public class Force
     {
-        private decimal? magnitude;
-        private UnitVector direction;
+        public decimal? Magnitude { get; set; }
+        public UnitVector Direction { get; private set; }
 
         public Force(decimal? magnitude, UnitVector direction)
         {
-            this.magnitude = magnitude;
-            this.direction = direction;
+            Magnitude = magnitude;
+            Direction = direction;
         }
 
-        public UnitVector GetDirection()
+        public Vector ToVector()
         {
-            return direction;
-        }
+            if (IsUnknown())
+                throw new Exception("Cannot get the magnitude of unknown force");
 
-        public decimal? GetMagnitude()
-        {
-            return magnitude;
+            Vector unitVector = new Vector(Direction);
+            unitVector.Scale(Magnitude.Value);
+
+            return unitVector;
         }
 
         public bool IsUnknown()
         {
-            return magnitude==null;
+            return Magnitude==null;
         }
     }
 }
