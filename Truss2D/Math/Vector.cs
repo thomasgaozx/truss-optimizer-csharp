@@ -8,6 +8,10 @@ namespace Truss2D.Math
 {
     public class Vector : Base2D
     {
+        public decimal GetLength()
+        {
+            return X * X + Y * Y;
+        }
 
         public UnitVector GetUnitVector()
         {

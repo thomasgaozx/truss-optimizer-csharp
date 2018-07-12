@@ -42,12 +42,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Force.cs" />
+    <Compile Include="Heap\MinHeap.cs" />
+    <Compile Include="IForce.cs" />
+    <Compile Include="Joint.cs" />
     <Compile Include="Math\Base2D.cs" />
+    <Compile Include="Math\Edge.cs" />
     <Compile Include="Math\UnitVector.cs" />
     <Compile Include="Math\Vector.cs" />
     <Compile Include="Math\Vertice.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Truss.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
