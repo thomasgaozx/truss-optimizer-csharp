@@ -48,8 +48,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MathUnitTest\EdgeUnitTest.cs" />
+    <Compile Include="MathUnitTest\MatrixUnitTest.cs" />
     <Compile Include="MathUnitTest\VectorUnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SimulatorUnitTest\ForceUnitTest.cs" />
+    <Compile Include="SimulatorUnitTest\JointUnitTest.cs" />
+    <Compile Include="SimulatorUnitTest\SolverUnitTest.cs" />
+    <Compile Include="TrussIntegrationTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Truss2D\Truss2D.csproj">

@@ -11,7 +11,7 @@ namespace Truss2D
     /// 3. Render
     /// 4. Solve
     /// </summary>
-    public abstract class Truss
+    public class Truss
     {
 
         private Dictionary<Edge, decimal?> internalForces; 

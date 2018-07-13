@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Truss2D.Math
 {
-    // Order of A, B does not matter
+    /// <summary>
+    /// Order of A, B does not matter
+    /// </summary>
     public class Edge
     {
         protected Vertice A { get; private set; }

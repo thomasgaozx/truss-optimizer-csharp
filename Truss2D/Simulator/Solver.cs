@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Truss2D.Math;
 
 namespace Truss2D
@@ -15,6 +12,7 @@ namespace Truss2D
         // push all the force component to it.
         private List<Force> unknowns;
         private Vector knownForce;
+        private Dictionary<Edge, decimal?> internalForces;
 
         public void Clear()
         {
