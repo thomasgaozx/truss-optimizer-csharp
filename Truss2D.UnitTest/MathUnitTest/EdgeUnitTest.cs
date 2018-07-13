@@ -1,7 +1,8 @@
 ﻿using NUnit.Framework;
+using System.Collections.Generic;
 using Truss2D.Math;
 
-namespace Truss2D.UnitTest.Math
+namespace Truss2D.UnitTest.MathUnitTest
 {
     [TestFixture]
     public class EdgeUnitTest
@@ -89,7 +90,53 @@ namespace Truss2D.UnitTest.Math
             var expectedUnitVector = new UnitVector(new Vector(G.X - H.X, G.Y - H.Y));
             Assert.That(GH.DirectionFrom(H),
                 Is.EqualTo(expectedUnitVector));
+        }
 
+        [Test]
+        public void Edge_Equals()
+        {
+            Assert.IsTrue(AB.Equals(BA));
+            Assert.IsTrue(AC.Equals(CA));
+            Assert.IsFalse(AB.Equals(AD));
+            Assert.IsFalse(GH.Equals(FH));
+        }
+
+        [Test]
+        public void Edge_SameHashCode()
+        {
+            Assert.IsTrue(AB.GetHashCode().Equals(BA.GetHashCode()));
+            Assert.IsTrue(AB.GetHashCode().Equals(new Edge(A, B).GetHashCode()));
+            Assert.IsTrue(AB.GetHashCode().Equals(new Edge(B,A).GetHashCode()));
+            Assert.IsTrue(AC.GetHashCode().Equals(CA.GetHashCode()));
+            Assert.IsTrue(AC.GetHashCode().Equals(new Edge(C,A).GetHashCode()));
+        }
+
+        [Test]
+        public void Edge_HashTable()
+        {
+            // Arrange
+            Dictionary<Edge, int> dict = new Dictionary<Edge, int>();
+            const int ab_val = 1;
+            const int ac_val = 2;
+            const int gh_val = 3;
+            const int ef_val = 4;
+            const int fh_val = 5;
+
+            // Act
+            dict.Add(AB, ab_val);
+            dict.Add(CA, ac_val);
+            dict.Add(GH, gh_val);
+            dict.Add(EF, ef_val);
+            dict.Add(FH, fh_val);
+
+            // Assert I
+            Assert.That(dict.ContainsKey(BA));
+            Assert.That(dict[new Edge(B, A)], Is.EqualTo(ab_val));
+            Assert.That(dict[AC], Is.EqualTo(ac_val));
+            Assert.That(dict[new Edge(C, A)], Is.EqualTo(ac_val));
+            Assert.That(dict[new Edge(H, G)], Is.EqualTo(gh_val));
+            Assert.That(dict[new Edge(F, E)], Is.EqualTo(ef_val));
+            Assert.That(dict[new Edge(F, H)], Is.EqualTo(fh_val));
         }
     }
 }
