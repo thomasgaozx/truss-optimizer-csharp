@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Truss2D.Math;
 
@@ -10,9 +11,45 @@ namespace Truss2D
     public class Solver
     {
         // push all the force component to it.
-        private List<Force> unknowns;
+        private List<Tuple<Edge,Vector>> unknowns;
         private Vector knownForce;
         private Dictionary<Edge, decimal?> internalForces;
+
+        public Solver(Dictionary<Edge, decimal?> internalForces)
+        {
+            unknowns = new List<Tuple<Edge, Vector>>();
+            knownForce = new Vector();
+            this.internalForces = internalForces;
+        }
+
+        public void JointDecomposition(Joint joint)
+        {
+            Clear();
+            
+            // Add all reactions
+            foreach (var reaction in joint.Reactions)
+            {
+                knownForce.Add(reaction);
+            }
+
+            // Add all neighbours
+            foreach (var neighbour in joint.Neightbours)
+            {
+                Edge newEdge = new Edge(joint, neighbour);
+                decimal? internalForce = internalForces[newEdge];
+                Vector direction = newEdge.DirectionFrom(joint);
+
+                if (internalForce == null)
+                    unknowns.Add(new Tuple<Edge, Vector>(newEdge,direction));
+                else
+                {
+                    Vector knownInternalForce = new Vector(newEdge.DirectionFrom(joint));
+                    knownInternalForce.Scale(internalForce.Value);
+                    knownForce.Add(knownInternalForce);
+                }
+            }
+
+        }
 
         public void Clear()
         {
@@ -20,45 +57,32 @@ namespace Truss2D
             knownForce = new Vector();
         }
 
-        public Solver()
-        {
-            unknowns = new List<Force>();
-            knownForce = new Vector();
-        }
-
-        public void AddForce(Force force)
-        {
-            if (force.IsUnknown())
-            {
-                unknowns.Add(force);
-                return;
-            }
-
-            knownForce.Add(force.ToVector());
-        }
-
         /// <summary>
-        /// returns true if the joint is completely solved,
+        /// returns number of joints solved,
         /// false otherwise
         /// </summary>
         /// <returns></returns>
-        public bool Solve()
+        public int Solve(out bool complete)
         {
             Vector negativeKnown = new Vector(knownForce);
             negativeKnown.Scale(-1);
-            Matrix matrix = new Matrix(unknowns.Select(f => f.Direction as Vector).ToList(), negativeKnown);
+            Matrix matrix = new Matrix(unknowns.Select(edgeTuple => edgeTuple.Item2).ToList(), negativeKnown);
             int rank= matrix.ReduceToRREF();
 
-            bool solved = true;
+            complete = true;
+            int numSolved = 0;
             for (int i=0; i<rank; ++i)
             {
                 int pos = FetchSolvedPosition(matrix, i);
                 if (pos > -1)
-                    unknowns[pos].Magnitude = matrix[i, matrix.N - 1];
+                {
+                    internalForces[unknowns[pos].Item1] = matrix[i, matrix.N - 1];
+                    ++numSolved;
+                }
                 else
-                    solved = false;
+                    complete = false;
             }
-            return solved;
+            return numSolved;
         }
 
         /// <summary>

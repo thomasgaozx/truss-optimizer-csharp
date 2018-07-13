@@ -32,7 +32,7 @@ namespace Truss2D.UnitTest.MathUnitTest
             Vector vec = new Vector(x, y);
 
             // Act
-            UnitVector u = new UnitVector(vec);
+            Vector u = vec.GetUnitVector();
 
             // Assert
             Assert.That(u.X, Is.EqualTo(u_x).Within(0.01));

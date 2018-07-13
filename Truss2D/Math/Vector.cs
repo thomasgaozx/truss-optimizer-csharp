@@ -2,14 +2,20 @@
 {
     public class Vector : Base2D
     {
+        public bool IsUnitVector()
+        {
+            return System.Math.Abs(GetLength() - 1) < (decimal)10E-9;
+        }
+
         public decimal GetLength()
         {
             return (decimal)System.Math.Sqrt((double)(X * X + Y * Y));
         }
 
-        public UnitVector GetUnitVector()
+        public Vector GetUnitVector()
         {
-            return new UnitVector(this);
+            decimal len = GetLength();
+            return new Vector(X/len, Y/len);
         }
 
         public void Add(Vector dir)

@@ -51,9 +51,6 @@
     <Compile Include="MathUnitTest\MatrixUnitTest.cs" />
     <Compile Include="MathUnitTest\VectorUnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SimulatorUnitTest\ForceUnitTest.cs" />
-    <Compile Include="SimulatorUnitTest\JointUnitTest.cs" />
-    <Compile Include="SimulatorUnitTest\SolverUnitTest.cs" />
     <Compile Include="TrussIntegrationTest.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -67,6 +64,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="SimulatorUnitTest\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

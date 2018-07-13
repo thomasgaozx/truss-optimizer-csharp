@@ -68,7 +68,7 @@ namespace Truss2D.UnitTest.MathUnitTest
         public void Edge_DirectionFrom_HardCoded()
         {
             var newEdge = new Edge(new Vertice(), new Vertice(2, 2));
-            UnitVector u = newEdge.DirectionFrom(new Vertice());
+            Vector u = newEdge.DirectionFrom(new Vertice());
             Assert.That((double)u.X, Is.EqualTo(System.Math.Sqrt(2) / 2.0).Within(0.01));
             Assert.That(u.Y, Is.EqualTo(u.X).Within( (decimal)0.01 ));
         }
@@ -76,7 +76,7 @@ namespace Truss2D.UnitTest.MathUnitTest
         [Test]
         public void Edge_DirectionFrom_AToB()
         {
-            var expectedUnitVector = new UnitVector(new Vector(B.X - A.X, B.Y - A.Y));
+            var expectedUnitVector = new Vector(B.X - A.X, B.Y - A.Y).GetUnitVector();
             Assert.That(AB.DirectionFrom(A),
                 Is.EqualTo(expectedUnitVector));
             Assert.That(BA.DirectionFrom(A),
@@ -87,7 +87,7 @@ namespace Truss2D.UnitTest.MathUnitTest
         [Test]
         public void Edge_DirectionFrom_HToG()
         {
-            var expectedUnitVector = new UnitVector(new Vector(G.X - H.X, G.Y - H.Y));
+            var expectedUnitVector = new Vector(G.X - H.X, G.Y - H.Y).GetUnitVector();
             Assert.That(GH.DirectionFrom(H),
                 Is.EqualTo(expectedUnitVector));
         }

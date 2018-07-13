@@ -19,10 +19,11 @@ namespace Truss2D.Math
         /// <summary>
         /// if v is a, then return a->b direction
         /// otherwise, return b->a direction
+        /// returns the unit vector
         /// </summary>
         /// <param name="v"></param>
         /// <returns></returns>
-        public UnitVector DirectionFrom(Vertice v)
+        public Vector DirectionFrom(Vertice v)
         {
             decimal newX=0;
             decimal newY=0;
@@ -39,7 +40,7 @@ namespace Truss2D.Math
             else
                 throw new Exception("v is not contained in the edge");
             
-            return new UnitVector(new Vector(newX, newY));
+            return new Vector(newX, newY).GetUnitVector();
         }
 
         #region Overridden

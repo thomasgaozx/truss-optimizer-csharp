@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Truss2D.Math;
 
 namespace Truss2D
@@ -36,7 +37,7 @@ namespace Truss2D
         /// <returns></returns>
         public HashSet<Joint> Solve(out bool successStatus)
         {
-            Solver solver = new Solver();
+            Solver solver = new Solver(internalForces);
             Queue<Joint> burndown = new Queue<Joint>();
             HashSet<Joint> solved = new HashSet<Joint>();
 
@@ -53,38 +54,15 @@ namespace Truss2D
                 for (int i = 0; i < cycleLength; ++i)
                 {
                     Joint joint = burndown.Dequeue();
-                    Dictionary<Force, Edge> unknowns = new Dictionary<Force,Edge>();
-                    var neighbours = joint.Neightbours;
-                    foreach (var neighbour in neighbours)
-                    {
-                        Edge edge = new Edge(joint, neighbour);
-                        Force newForce = new Force(internalForces[edge], edge.DirectionFrom(joint));
-                        if (newForce.IsUnknown())
-                            unknowns.Add(newForce,edge);
-                        solver.AddForce(newForce);
-                    }
+                    solver.JointDecomposition(joint);
+                    int numSolved = solver.Solve(out bool complete);
 
-                    foreach (var reaction in joint.Reactions)
-                    {
-                        solver.AddForce(reaction);
-                    }
-
-                    bool complete = solver.Solve();
-
-                    foreach (var unknown in unknowns.Keys)
-                    {
-                        if (!unknown.IsUnknown())
-                        {
-                            progress = true;
-                            internalForces[unknowns[unknown]] = unknown.Magnitude;
-                        }
-                    }
-
-                    if (!complete)
-                        burndown.Enqueue(joint);
-                    else
+                    if (complete)
                         solved.Add(joint);
+                    else
+                        burndown.Enqueue(joint);
 
+                    progress = numSolved != 0;
                 }
 
             }
@@ -115,12 +93,12 @@ namespace Truss2D
             jointMap.Add(b, jointB);
         }
 
-        public void AddForce(Vertice point, Force force)
+        public void AddForce(Vertice point, Vector force)
         {
             if (!jointMap.ContainsKey(point))
                 throw new Exception("No joint found on the given point ...");
 
-            jointMap[point].AddReactions(force);
+            jointMap[point].AddReaction(force);
         }
 
     }

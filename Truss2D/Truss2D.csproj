@@ -45,12 +45,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Shell\ConsoleFormat.cs" />
-    <Compile Include="Simulator\Force.cs" />
     <Compile Include="Simulator\Joint.cs" />
     <Compile Include="Math\Base2D.cs" />
     <Compile Include="Math\Edge.cs" />
     <Compile Include="Math\Matrix.cs" />
-    <Compile Include="Math\UnitVector.cs" />
     <Compile Include="Math\Vector.cs" />
     <Compile Include="Math\Vertice.cs" />
     <Compile Include="Program.cs" />
