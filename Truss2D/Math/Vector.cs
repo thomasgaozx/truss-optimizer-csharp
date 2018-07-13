@@ -10,7 +10,7 @@ namespace Truss2D.Math
     {
         public decimal GetLength()
         {
-            return X * X + Y * Y;
+            return (decimal)System.Math.Sqrt((double)(X * X + Y * Y));
         }
 
         public UnitVector GetUnitVector()

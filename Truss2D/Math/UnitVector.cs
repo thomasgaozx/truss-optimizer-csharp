@@ -13,7 +13,7 @@ namespace Truss2D.Math
 
         public UnitVector(Vector vector)
         {
-            decimal len = X * X + Y * Y;
+            decimal len = vector.GetLength();
             X = vector.X / len;
             Y = vector.Y / len;
         }

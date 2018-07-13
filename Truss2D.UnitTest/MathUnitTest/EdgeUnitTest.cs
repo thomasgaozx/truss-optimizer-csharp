@@ -66,7 +66,8 @@ namespace Truss2D.UnitTest.Math
         [Test]
         public void Edge_DirectionFrom_HardCoded()
         {
-            UnitVector u = new Edge(new Vertice(), new Vertice(2, 2)).DirectionFrom(new Vertice());
+            var newEdge = new Edge(new Vertice(), new Vertice(2, 2));
+            UnitVector u = newEdge.DirectionFrom(new Vertice());
             Assert.That((double)u.X, Is.EqualTo(System.Math.Sqrt(2) / 2.0).Within(0.01));
             Assert.That(u.Y, Is.EqualTo(u.X).Within( (decimal)0.01 ));
         }
