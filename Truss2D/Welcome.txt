@@ -1,0 +1,8 @@
+﻿==================Author: Thomas Gao==================
+====================== v 1.0.0 =======================
+
+Welcome to the Truss Solver. This is an application 
+that simulates 2D trusses and solve for internal 
+forces. 
+
+Enter 'help' for help menu.

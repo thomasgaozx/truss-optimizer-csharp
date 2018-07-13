@@ -14,7 +14,7 @@ namespace Truss2D.Math
 
         public bool Contains(Vertice vertice)
         {
-            return vertice == A || vertice == B;
+            return vertice.Equals(A) || vertice.Equals(B);
         }
 
         /// <summary>
@@ -27,17 +27,19 @@ namespace Truss2D.Math
         {
             decimal newX=0;
             decimal newY=0;
-            if (v==A)
+            if (v.Equals(A))
             {
                 newX = B.X - A.X;
                 newY = B.Y - A.Y;
             }
-            else if (v==B)
+            else if (v.Equals(B))
             {
                 newX = A.X - B.X;
                 newY = A.Y - B.Y;
             }
-
+            else
+                throw new Exception("v is not contained in the edge");
+            
             return new UnitVector(new Vector(newX, newY));
         }
 
