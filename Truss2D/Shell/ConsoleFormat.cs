@@ -8,6 +8,16 @@ namespace Truss2D.Shell
     /// </summary>
     public static class ConsoleFormat
     {
+
+        public const string LineBreak = "======================================================";
+
+        public static void ClearLine()
+        {
+            Console.SetCursorPosition(0, Console.CursorTop - 1);
+            Console.Write(new string(' ', Console.WindowWidth));
+            Console.SetCursorPosition(0, Console.CursorTop - 1);
+        }
+
         private static void DefaultColour()
         {
             Console.ForegroundColor = ConsoleColor.White;
@@ -62,10 +72,10 @@ namespace Truss2D.Shell
         {
             SetColourAndPrint(ConsoleColor.Yellow, content);
         }
-
+            
         public static void PromptWarning(string content)
         {
-            SetColourAndPrint(ConsoleColor.Yellow, content);
+            SetColourAndPrompt(ConsoleColor.Yellow, content);
         }
 
         /// <summary>

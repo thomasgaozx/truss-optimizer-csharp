@@ -35,7 +35,8 @@ namespace Truss2D
             // Add all neighbours
             foreach (var neighbour in joint.Neightbours)
             {
-                Edge newEdge = new Edge(joint, neighbour);
+                Edge newEdge = new Edge(new Vertice(joint), new Vertice(neighbour)); // clumsiness to be fixed
+
                 decimal? internalForce = internalForces[newEdge];
                 Vector direction = newEdge.DirectionFrom(joint);
 
@@ -79,9 +80,9 @@ namespace Truss2D
                     internalForces[unknowns[pos].Item1] = matrix[i, matrix.N - 1];
                     ++numSolved;
                 }
-                else
-                    complete = false;
             }
+
+            complete = numSolved == unknowns.Count;
             return numSolved;
         }
 

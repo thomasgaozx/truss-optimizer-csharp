@@ -48,7 +48,8 @@ namespace Truss2D.Math
         public override bool Equals(object obj)
         {
             var edge = obj as Edge;
-            return edge != null && (edge.A==A && edge.B==B)||(edge.A==B && edge.B==A); // order doesn't matter
+            return edge != null && (edge.A.Equals(A) && edge.B.Equals(B))
+                ||(edge.A.Equals(B) && edge.B.Equals(A)); // order doesn't matter
         }
 
         /// <summary>

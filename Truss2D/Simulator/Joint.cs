@@ -7,10 +7,7 @@ namespace Truss2D
     public class Joint : Vertice
     {
         private List<Joint> neighbours; 
-        // used to get the internal force information from truss ADT
 
-        // ADT: { Edge : Force }; ==> get magnitude AND direction
-        // Actually, unknown force is just null
         private List<Vector> reactions;
 
         public IReadOnlyCollection<Joint> Neightbours { get => neighbours.AsReadOnly(); }
