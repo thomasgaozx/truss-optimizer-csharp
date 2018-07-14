@@ -100,7 +100,7 @@ namespace Truss2D.Shell
                         new Edge(builder.GetJoint(args[1][0]),
                         builder.GetJoint(args[1][1])));
                     Print(internalForce == null ? "Unknown ..." :
-                        internalForce.Value.ToString("#.##"));
+                        internalForce.Value.ToString("0.##"));
                     break;
                 case MinInternalForce:
                     decimal? min = builder.Model.MinInternalForce;

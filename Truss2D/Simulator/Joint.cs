@@ -17,6 +17,8 @@ namespace Truss2D
         
         public void AddNeighbour(Joint neighbour)
         {
+            if (Equals(neighbour))
+                throw new Exception("You add the joint itself as neighbour");
             neighbours.Add(neighbour);
         }
 

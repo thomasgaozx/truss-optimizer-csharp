@@ -30,14 +30,12 @@ namespace Truss2D
                 {
                     Print(line);
                 }
+                Print("\n" + Messages.Flow_Message);
+                PrintWarning("\n" + Messages.Assumption_Message);
+                Print("\n" + Messages.Help_Welcome);
+                Print(LineBreak);
             }
             catch (Exception) { }
-
-            Print("\n"+Messages.Flow_Message);
-            PrintWarning("\n"+Messages.Assumption_Message);
-            Print("\n"+ Messages.Help_Welcome);
-            Print(LineBreak);
-
         }
 
         /// <summary>
@@ -51,11 +49,14 @@ namespace Truss2D
             try
             {
                 string raw = Console.ReadLine().Trim().ToLower();
-                string[] command = raw.Split(null);
-                if (command[0].Equals(QuitKeyword))
-                    return false;
-                // Use the processor to process the command otherwise
-                processor.ProcessCommand(command);
+                if (!String.IsNullOrWhiteSpace(raw))
+                {
+                    string[] command = raw.Split(null);
+                    if (command[0].Equals(QuitKeyword))
+                        return false;
+                    // Use the processor to process the command otherwise
+                    processor.ProcessCommand(command);
+                }
             }
             catch (CommandProcessor.ArgException a)
             {
@@ -63,8 +64,8 @@ namespace Truss2D
             }
             catch (Exception e)
             {
-                PrintDanger("An error occurred ...");
-                Print($"{e.Message}\n\n{e.Source}\n\n{e.StackTrace}");
+                PrintWarning("An error occurred ...\n"+e.Message);
+                PrintDanger($"\n{e.Source}\n\n{e.StackTrace}");
             }
 
             return true;

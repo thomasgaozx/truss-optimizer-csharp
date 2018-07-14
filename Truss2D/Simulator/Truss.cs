@@ -108,15 +108,29 @@ namespace Truss2D
 
             internalForces.Add(newEdge, null);
 
-            Joint jointA = new Joint(a);
-            Joint jointB = new Joint(b);
+            Joint jointA = null;
+            Joint jointB = null;
+
+            if (jointMap.ContainsKey(a))
+                jointA = jointMap[a];
+            else
+            {
+                jointA = new Joint(a);
+                jointMap.Add(a, jointA);
+            }
+
+            if (jointMap.ContainsKey(b))
+                jointB = jointMap[b];
+            else
+            {
+                jointB = new Joint(b);
+                jointMap.Add(b, jointB);
+            }
 
             jointA.AddNeighbour(jointB);
-            jointB.AddNeighbour(jointB);
+            jointB.AddNeighbour(jointA);
 
-            if (!jointMap.ContainsKey(a)) jointMap.Add(a, jointA);
-            if (!jointMap.ContainsKey(b)) jointMap.Add(b, jointB);
-        }
+         }
 
         [Obsolete("using a vertice to find force is redundant")]
         public void AddForce(Vertice point, Vector force)

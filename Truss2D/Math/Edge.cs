@@ -27,12 +27,12 @@ namespace Truss2D.Math
         {
             decimal newX=0;
             decimal newY=0;
-            if (v.Equals(A))
+            if (A.Equals(v))
             {
                 newX = B.X - A.X;
                 newY = B.Y - A.Y;
             }
-            else if (v.Equals(B))
+            else if (B.Equals(v))
             {
                 newX = A.X - B.X;
                 newY = A.Y - B.Y;
