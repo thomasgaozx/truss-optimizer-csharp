@@ -98,6 +98,7 @@ namespace Truss2D
                 if (pos == limit)
                     return -1;            
             state = pos++;
+            ++limit;
             for (; pos < limit && matrix[row, pos] == 0; ++pos) { }
             return pos==limit? state:-1;
         }

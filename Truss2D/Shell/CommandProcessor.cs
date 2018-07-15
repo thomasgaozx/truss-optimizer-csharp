@@ -92,23 +92,22 @@ namespace Truss2D.Shell
                     Print($"Force successfully added ...");
                     break;
                 case Render:
-                    builder.Render();
-                    Print($"Render success ...");
+                    bool status = builder.Render();
+                    Print(status ? "Render success ..." : "Render incomplete");
                     break;
                 case Lookup:
                     decimal? internalForce = builder.Model.GetInternalForce(
                         new Edge(builder.GetJoint(args[1][0]),
                         builder.GetJoint(args[1][1])));
-                    Print(internalForce == null ? "Unknown ..." :
-                        internalForce.Value.ToString("0.##"));
+                    PrintInternalForce(internalForce);
                     break;
                 case MinInternalForce:
                     decimal? min = builder.Model.MinInternalForce;
-                    Print(min == null ? "Unknown ..." : min.Value.ToString("#.##"));
+                    PrintInternalForce(min);
                     break;
                 case MaxInternalForce:
                     decimal? max = builder.Model.MaxInternalForce;
-                    Print(max == null ? "Unknown ..." : max.Value.ToString("#.##"));
+                    PrintInternalForce(max);
                     break;
                 default:
                     throw new ArgException($"Command '{args[0]}' not recognized ...");
@@ -156,6 +155,13 @@ namespace Truss2D.Shell
         public void Println(string key, string value) {
             PromptWarning($"'{key}': ");
             Print(value);
+        }
+        
+        public void PrintInternalForce(decimal? internalForce)
+        {
+            Print(internalForce == null ? "Unknown ..." :
+            internalForce.Value.ToString("0.##"));
+
         }
 
         #region Life Cycle

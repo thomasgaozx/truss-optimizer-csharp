@@ -60,19 +60,20 @@ namespace Truss2D
         /// <returns></returns>
         public HashSet<Joint> Solve(out bool successStatus)
         {
+            // Arrange
             Reset();
-
             Solver solver = new Solver(internalForces);
             Queue<Joint> burndown = new Queue<Joint>();
             HashSet<Joint> solved = new HashSet<Joint>();
 
+            // Burndown Cycle
             foreach (var joint in jointMap.Values)
             {
                 burndown.Enqueue(joint);
             }
 
-            bool progress = true;
-            while (progress || burndown.Count==0)
+            bool progress=true;
+            while (progress && burndown.Count!=0)
             {
                 int cycleLength = burndown.Count;
                 progress = false;
@@ -85,13 +86,18 @@ namespace Truss2D
                     if (complete)
                         solved.Add(joint);
                     else
+                    {
                         burndown.Enqueue(joint);
+                    }
 
-                    progress = numSolved != 0;
+                    if (numSolved != 0)
+                        progress = true;
+
                 }
 
             }
 
+            // Conclusions
             if (burndown.Count == 0)
                 successStatus = true;
             else
