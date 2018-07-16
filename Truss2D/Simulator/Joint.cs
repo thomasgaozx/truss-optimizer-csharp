@@ -31,11 +31,9 @@ namespace Truss2D
             reactions.Add(force);
         }
 
-        public override bool Equals(object obj)
+        public void ClearReactions()
         {
-            var joint = obj as Joint;
-            return joint != null &&
-                   base.Equals(obj);
+            reactions.Clear();
         }
 
         public override int GetHashCode()

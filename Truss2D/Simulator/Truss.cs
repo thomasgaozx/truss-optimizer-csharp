@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using Truss2D.Math;
-
+using static Truss2D.Shell.ConsoleFormat;
 namespace Truss2D
 {
     /// <summary>
@@ -18,9 +18,63 @@ namespace Truss2D
         private Dictionary<Edge, decimal?> internalForces; 
         private Dictionary<Vertice, Joint> jointMap;
 
+        /// <summary>
+        /// Assume that joints are ordered from a-z
+        /// </summary>
+        /// <param name="vertices"></param>
+        public void PrintReactionsInJoints(IList<Vertice> vertices)
+        {
+            for (int i=0; i<vertices.Count; ++i)
+            {
+                var v = vertices[i];
+                if (jointMap.ContainsKey(v))
+                {
+
+                    // Print all reaction for that joint
+                    var reactions = jointMap[v].Reactions;
+                    if (jointMap[v].Reactions.Count>0)
+                    {
+                        Print(($"Joint {(char)('A' + i)}: "));
+                        foreach(var reaction in reactions)
+                        {
+                            Print($"\t [{reaction.X}, {reaction.Y}]");
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// For shell application
+        /// </summary>
         public decimal? GetInternalForce(Edge edge)
         {
             return internalForces[edge];
+        }
+
+        /// <summary>
+        /// For shell application
+        /// </summary>
+        public void ClearJointForce(Vertice v)
+        {
+            if (!jointMap.ContainsKey(v))
+                throw new Exception($"The joint that you're looking for does not exist at location ({v.X.ToString("0.##")}, {v.Y.ToString("0.##")})...");
+            jointMap[v].ClearReactions();
+        }
+
+        /// <summary>
+        /// For shell application
+        /// </summary>
+        public void ResetVerticeCoord(Vertice v, decimal x, decimal y)
+        {
+            var newVertice = new Vertice(x, y);
+            if (jointMap.ContainsKey(newVertice))
+                throw new Exception($"The coordinate ({x}, {y}) is already occupied ...");
+
+            Joint oldJoint = jointMap[v];
+            jointMap.Remove(v);
+            oldJoint.ResetCoordinate(x, y);
+            jointMap.Add(newVertice, oldJoint);
         }
 
         public decimal? MaxInternalForce =>

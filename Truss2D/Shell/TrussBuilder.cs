@@ -1,21 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Truss2D.Math;
+using static Truss2D.Shell.ConsoleFormat;
 
 namespace Truss2D.Shell
 {
     public class TrussBuilder
     {
         private Truss model;
-
         private List<Vertice> joints;
-
         public Truss Model => model;
 
         public int CurrentAlphaPos => joints.Count;
+
+        public void PrintAllReactions()
+        {
+            model.PrintReactionsInJoints(joints);
+        }
+
+        public void PrintAllJoints()
+        {
+            for (int i=0; i<joints.Count; ++i)
+            {
+                var joint = joints[i];
+                Print($"Joint {(char)('A' + i)}: ({joint.X.ToString("0.##")}, {joint.X.ToString("0.##")})");
+            }
+        }
+
+        public void ResetVertice(char a, decimal newx, decimal newy)
+        {
+            int pos = a - 'a';
+            if (pos > joints.Count)
+                throw new Exception("Bad joint ...");
+            joints[pos].ResetCoordinate(newx, newy);
+        }
 
         public Vertice GetJoint(char a)
         {

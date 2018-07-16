@@ -8,6 +8,12 @@
 
         public Vertice(Vertice vertice) : this(vertice.X, vertice.Y) { }
 
+        public void ResetCoordinate(decimal x, decimal y)
+        {
+            X = x;
+            Y = y;
+        }
+
         #region Overridden
 
         public override bool Equals(object obj)

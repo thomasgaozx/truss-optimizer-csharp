@@ -93,6 +93,16 @@ namespace Truss2D.Shell {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Clear the force at a certain joint.
+        ///    Syntax: &apos;clearf a b&apos;. This clears the forces / reactions at joint A and joint B..
+        /// </summary>
+        internal static string ClearForce {
+            get {
+                return ResourceManager.GetString("ClearForce", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The flow of the program is outlined as follows:
         ///1. Add joints
         ///2. Link joints, or, Add forces onto a joint. 
@@ -145,6 +155,15 @@ namespace Truss2D.Shell {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Lookup all the internal forces stored..
+        /// </summary>
+        internal static string LookupAll {
+            get {
+                return ResourceManager.GetString("LookupAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Look up the maximum internal force..
         /// </summary>
         internal static string MaxInternalForce {
@@ -165,9 +184,9 @@ namespace Truss2D.Shell {
         /// <summary>
         ///   Looks up a localized string similar to Prints all added forces..
         /// </summary>
-        internal static string PrintForce {
+        internal static string PrintForces {
             get {
-                return ResourceManager.GetString("PrintForce", resourceCulture);
+                return ResourceManager.GetString("PrintForces", resourceCulture);
             }
         }
         
