@@ -51,7 +51,8 @@
     <Compile Include="MathUnitTest\MatrixUnitTest.cs" />
     <Compile Include="MathUnitTest\VectorUnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TrussIntegrationTest.cs" />
+    <Compile Include="TrussIntegrationTest\TrussBuilderIntegrationTest.cs" />
+    <Compile Include="TrussIntegrationTest\TrussIntegrationTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Truss2D\Truss2D.csproj">
