@@ -136,7 +136,7 @@ namespace Truss2D.Shell {
         
         /// <summary>
         ///   Looks up a localized string similar to Look up the internal force of a specific edge. Should be called after solving.
-        ///    Syntax: &apos;lookup ab&apos;. This looks up the edge AB..
+        ///    Syntax: see ab cd de&apos;. This looks up the internal forces in member AB, CD and DE..
         /// </summary>
         internal static string Lookup {
             get {

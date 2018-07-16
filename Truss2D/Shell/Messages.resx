@@ -151,7 +151,7 @@ trusses.</value>
   </data>
   <data name="Lookup" xml:space="preserve">
     <value>Look up the internal force of a specific edge. Should be called after solving.
-    Syntax: 'lookup ab'. This looks up the edge AB.</value>
+    Syntax: see ab cd de'. This looks up the internal forces in member AB, CD and DE.</value>
   </data>
   <data name="MaxInternalForce" xml:space="preserve">
     <value>Look up the maximum internal force.</value>

@@ -44,7 +44,7 @@ namespace Truss2D.Shell
         /// <summary>
         /// Syntax: 'lookup ab'
         /// </summary>
-        public const string Lookup = "lookup";
+        public const string Lookup = "see";
         public const string MinInternalForce = "minf";
         public const string MaxInternalForce = "maxf";
         
@@ -96,10 +96,18 @@ namespace Truss2D.Shell
                     Print(status ? "Render success ..." : "Render incomplete");
                     break;
                 case Lookup:
-                    decimal? internalForce = builder.Model.GetInternalForce(
-                        new Edge(builder.GetJoint(args[1][0]),
-                        builder.GetJoint(args[1][1])));
-                    PrintInternalForce(internalForce);
+                    if (args.Length < 2)
+                        throw new Exception("Wtf are you looking for ...");
+                    for (int i = 1; i < args.Length; ++i)
+                        if (args[i].Length < 2)
+                            throw new Exception($"Wtf is {args[i]} ...");
+                    for (int i=1; i<args.Length; ++i)
+                    {
+                        decimal? internalForce = builder.Model.GetInternalForce(
+                        new Edge(builder.GetJoint(args[i][0]), builder.GetJoint(args[i][1])));
+                        Prompt($"Member {args[i].ToUpper()}: ");
+                        PrintInternalForce(internalForce);
+                    }
                     break;
                 case MinInternalForce:
                     decimal? min = builder.Model.MinInternalForce;
@@ -130,7 +138,7 @@ namespace Truss2D.Shell
             builder.AddJoint(newVertice);
 
             ClearLine();
-            Print("Joint " + (char)('A' + builder.CurrentAlphaPos - 1) + $" ({ newVertice.X.ToString("#.##")}, { newVertice.Y.ToString("#.#")})");
+            Print("Joint " + (char)('A' + builder.CurrentAlphaPos - 1) + $" ({ newVertice.X.ToString("0.##")}, { newVertice.Y.ToString("0.##")})");
             return true;
         }
 
