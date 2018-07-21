@@ -71,6 +71,9 @@ namespace Truss2D.Shell
         {
             model = new Truss();
             joints.Clear();
+            pin = null;
+            roller = null;
+            knownForces.Clear();
         }
 
         public void AddJoint(Vertex newvertex)
