@@ -54,7 +54,7 @@ namespace Truss2D.Shell
         public const string RollerSupport = "rol";
         public const string RePin = "repin";
         public const string ReRol = "rerol";
-        
+        public const string GetCost = "cost";
         
         #endregion
 
@@ -200,6 +200,10 @@ namespace Truss2D.Shell
                     if (args.Length != 2 || args[1].Length != 1)
                         throw new Exception("Bad arguments ...");
                     builder.ChangeRoller(args[1][0]);
+                    break;
+
+                case GetCost:
+                    Print(builder.Model.GetPrice().ToString("0.###"));
                     break;
 
                 default:

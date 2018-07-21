@@ -41,7 +41,7 @@ namespace Truss2D
                 Vector direction = newEdge.DirectionFrom(joint);
 
                 if (internalForce == null)
-                    unknowns.Add(new Tuple<Edge, Vector>(newEdge,direction));
+                    unknowns.Add(new Tuple<Edge, Vector>(newEdge, direction));
                 else
                 {
                     Vector knownInternalForce = new Vector(newEdge.DirectionFrom(joint));

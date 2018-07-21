@@ -11,10 +11,9 @@ namespace Truss2D.Math
         protected Vertex A { get; private set; }
         protected Vertex B { get; private set; }
 
-        public bool Contains(Vertex vertex)
-        {
-            return vertex.Equals(A) || vertex.Equals(B);
-        }
+        public decimal GetDistance() => (decimal)System.Math.Sqrt((double)((A.X - B.X) * (A.X - B.X) + (A.Y - B.Y) * (A.Y - B.Y)));
+
+        public bool Contains(Vertex vertex) => vertex.Equals(A) || vertex.Equals(B);
 
         /// <summary>
         /// if v is a, then return a->b direction

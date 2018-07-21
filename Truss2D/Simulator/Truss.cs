@@ -18,6 +18,22 @@ namespace Truss2D
         private Dictionary<Edge, decimal?> internalForces; 
         private Dictionary<Vertex, Joint> jointMap;
 
+        private const decimal JointCost = 5;
+        private const decimal CostPerMeter = 10;
+
+        public decimal GetPrice()
+        {
+            if (!(internalForces.Any() && jointMap.Any()))
+                throw new Exception("There is no joint or no edge");
+
+            decimal dist = 0;
+            var edges = internalForces.Keys.ToArray();
+            foreach (Edge edge in edges)
+                dist += edge.GetDistance();
+
+            return dist * CostPerMeter + jointMap.Count * JointCost;
+        }
+
         /// <summary>
         /// Assume that joints are ordered from a-z
         /// </summary>
