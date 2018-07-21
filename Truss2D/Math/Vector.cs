@@ -2,6 +2,7 @@
 {
     public class Vector : Base2D
     {
+
         public bool IsUnitVector()
         {
             return System.Math.Abs(GetLength() - 1) < (decimal)10E-9;

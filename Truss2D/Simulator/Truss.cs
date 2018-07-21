@@ -16,17 +16,17 @@ namespace Truss2D
     {
 
         private Dictionary<Edge, decimal?> internalForces; 
-        private Dictionary<Vertice, Joint> jointMap;
+        private Dictionary<Vertex, Joint> jointMap;
 
         /// <summary>
         /// Assume that joints are ordered from a-z
         /// </summary>
-        /// <param name="vertices"></param>
-        public void PrintReactionsInJoints(IList<Vertice> vertices)
+        /// <param name="vertexs"></param>
+        public void PrintReactionsInJoints(IList<Vertex> vertexs)
         {
-            for (int i=0; i<vertices.Count; ++i)
+            for (int i=0; i<vertexs.Count; ++i)
             {
-                var v = vertices[i];
+                var v = vertexs[i];
                 if (jointMap.ContainsKey(v))
                 {
 
@@ -55,7 +55,7 @@ namespace Truss2D
         /// <summary>
         /// For shell application
         /// </summary>
-        public void ClearJointForce(Vertice v)
+        public void ClearJointForce(Vertex v)
         {
             if (!jointMap.ContainsKey(v))
                 throw new Exception($"The joint that you're looking for does not exist at location ({v.X.ToString("0.##")}, {v.Y.ToString("0.##")})...");
@@ -65,16 +65,16 @@ namespace Truss2D
         /// <summary>
         /// For shell application
         /// </summary>
-        public void ResetVerticeCoord(Vertice v, decimal x, decimal y)
+        public void ResetvertexCoord(Vertex v, decimal x, decimal y)
         {
-            var newVertice = new Vertice(x, y);
-            if (jointMap.ContainsKey(newVertice))
+            var newvertex = new Vertex(x, y);
+            if (jointMap.ContainsKey(newvertex))
                 throw new Exception($"The coordinate ({x}, {y}) is already occupied ...");
 
             Joint oldJoint = jointMap[v];
             jointMap.Remove(v);
             oldJoint.ResetCoordinate(x, y);
-            jointMap.Add(newVertice, oldJoint);
+            jointMap.Add(newvertex, oldJoint);
         }
 
         public decimal? MaxInternalForce =>
@@ -85,7 +85,7 @@ namespace Truss2D
         public Truss()
         {
             internalForces = new Dictionary<Edge, decimal?>();
-            jointMap = new Dictionary<Vertice,Joint>();
+            jointMap = new Dictionary<Vertex,Joint>();
         }
 
         public void Clear()
@@ -160,7 +160,7 @@ namespace Truss2D
             return solved;
         }
 
-        public void AddEdge(Vertice a, Vertice b)
+        public void AddEdge(Vertex a, Vertex b)
         {
             Edge newEdge = new Edge(a, b);
             if (internalForces.ContainsKey(newEdge))
@@ -192,8 +192,8 @@ namespace Truss2D
 
          }
 
-        [Obsolete("using a vertice to find force is redundant")]
-        public void AddForce(Vertice point, Vector force)
+        [Obsolete("using a vertex to find force is redundant")]
+        public void AddForce(Vertex point, Vector force)
         {
             if (!jointMap.ContainsKey(point))
                 throw new Exception("No joint found on the given point ...");

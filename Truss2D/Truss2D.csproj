@@ -51,6 +51,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Messages.resx</DependentUpon>
     </Compile>
+    <Compile Include="Shell\SupportReactions\BaseReaction.cs" />
+    <Compile Include="Shell\SupportReactions\Pin.cs" />
+    <Compile Include="Shell\SupportReactions\Roller.cs" />
     <Compile Include="Shell\TrussBuilder.cs" />
     <Compile Include="Simulator\Joint.cs" />
     <Compile Include="Math\Base2D.cs" />

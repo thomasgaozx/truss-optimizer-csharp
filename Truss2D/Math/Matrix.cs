@@ -4,6 +4,8 @@ namespace Truss2D.Math
 {
     public class Matrix
     {
+        public const decimal TOL = 10E-12M;
+
         /// <summary>
         /// # of rows
         /// </summary>
@@ -22,7 +24,7 @@ namespace Truss2D.Math
             N = n;
             this.matrix = matrix;
         }
-
+        
         /// <summary>
         /// Each vector is a column
         /// </summary>
@@ -96,18 +98,14 @@ namespace Truss2D.Math
             while (j < N && i < M)
             {
                 headRow = i;
-                while (i < M && matrix[i,j] == 0)
-                {
+                while (i < M && System.Math.Abs(matrix[i,j])<TOL)
                     i++;
-                }
                 if (i != M)
                 {
                     rank++; //no pivot values needed because it is already leading one
                     Scale(i, ((decimal)1.0 / matrix[i, j]));
                     if (i != headRow)
-                    {
                         Swap(i, headRow);
-                    }
 
                     i++;
 
@@ -115,10 +113,8 @@ namespace Truss2D.Math
                     while (i < M)
                     {
                         leadingTerm = matrix[i, j];
-                        if (leadingTerm != 0)
-                        {
+                        if (System.Math.Abs(leadingTerm)>TOL)
                             AddToRow(i, headRow, (-leadingTerm));
-                        }
                         i++;
                     }
 
@@ -129,18 +125,16 @@ namespace Truss2D.Math
                     while (i >= 0)
                     {
                         leadingTerm = matrix[i, j];
-                        if (leadingTerm != 0)
-                        {
+                        if (System.Math.Abs(leadingTerm) > TOL)
                             AddToRow(i, headRow, (-leadingTerm));
-                        }
+                        
                         i--;
                     }
                     i = headRow + 1; //reset for next iteration
                 }
                 else
-                {
                     i = headRow;
-                }
+                
                 j++;
             }
             return rank;
@@ -161,6 +155,9 @@ namespace Truss2D.Math
             for (int j = 0; j < N; j++)
             {
                 matrix[row,j] *= constant;
+
+                if (System.Math.Abs(matrix[row, j]) < TOL)
+                    matrix[row, j] = 0;
             }
         }
 
@@ -169,6 +166,9 @@ namespace Truss2D.Math
             for (int j = 0; j < N; j++)
             {
                 matrix[row1,j] += multipleOfRow2 * matrix[row2,j];
+
+                if (System.Math.Abs(matrix[row1, j]) < TOL)
+                    matrix[row1, j] = 0;
             }
         }
 

@@ -1,6 +1,16 @@
 ﻿==================Author: Thomas Gao==================
-====================== v 1.0.3 =======================
-              (Last Updated: 2018-07-16)
+====================== v 1.0.4 =======================
+              (Last Updated: 2018-07-21)
 Welcome to the Truss Solver. This is an application 
 that simulates 2D trusses and solve for internal 
 forces. 
+
+New Features v1.0.4:
+Solving Support Reactions feature is officially 
+implemented!
+The following limitations apply:
+1) There can be only 1 pin and 1 roller support 
+(otherwise the support reaction will not be solvable 
+by our standard).
+2) The support reactions will only be taken into 
+consideration when they BOTH exists.

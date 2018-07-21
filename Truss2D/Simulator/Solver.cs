@@ -35,7 +35,7 @@ namespace Truss2D
             // Add all neighbours
             foreach (var neighbour in joint.Neightbours)
             {
-                Edge newEdge = new Edge(new Vertice(joint), new Vertice(neighbour)); // clumsiness to be fixed
+                Edge newEdge = new Edge(new Vertex(joint), new Vertex(neighbour)); // clumsiness to be fixed
 
                 decimal? internalForce = internalForces[newEdge];
                 Vector direction = newEdge.DirectionFrom(joint);

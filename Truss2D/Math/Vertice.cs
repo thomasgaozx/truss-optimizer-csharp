@@ -1,12 +1,12 @@
 ﻿namespace Truss2D.Math
 {
-    public class Vertice : Base2D
+    public class Vertex : Base2D
     {
-        public Vertice() : base() { }
+        public Vertex() : base() { }
 
-        public Vertice(decimal x, decimal y) : base(x, y) { }
+        public Vertex(decimal x, decimal y) : base(x, y) { }
 
-        public Vertice(Vertice vertice) : this(vertice.X, vertice.Y) { }
+        public Vertex(Vertex vertex) : this(vertex.X, vertex.Y) { }
 
         public void ResetCoordinate(decimal x, decimal y)
         {
@@ -32,6 +32,18 @@
         }
         
         #endregion
+
+        /// <summary>
+        /// Does not perform null checking
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static decimal GetDist(Vertex a, Vertex b)
+        {
+            return (a.X - b.X) * (a.X - b.X)
+                + (a.Y - b.Y) * (a.Y - b.Y);
+        }
 
     }
 }

@@ -26,7 +26,7 @@ namespace Truss2D.TrussIntegrationTest
         /// </summary>
         private void PutJoint(int x, int y)
         {
-            builder.AddJoint(new Vertice(x, y));
+            builder.AddJoint(new Vertex(x, y));
         }
 
         /// <summary>

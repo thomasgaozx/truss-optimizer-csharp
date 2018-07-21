@@ -14,14 +14,14 @@ namespace Truss2D.UnitTest.MathUnitTest
         const decimal Val5 = (decimal)101.324;
         const decimal Val6 = (decimal)7.1;
 
-        public Vertice A = new Vertice(Val1, Val2);
-        public Vertice B = new Vertice(Val1, Val3);
-        public Vertice C = new Vertice(Val3, Val2);
-        public Vertice D = new Vertice(Val2, Val2);
-        public Vertice E = new Vertice(Val4, Val5);
-        public Vertice F = new Vertice(Val3, Val6);
-        public Vertice G = new Vertice(Val5, Val2);
-        public Vertice H = new Vertice(Val6, Val1);
+        public Vertex A = new Vertex(Val1, Val2);
+        public Vertex B = new Vertex(Val1, Val3);
+        public Vertex C = new Vertex(Val3, Val2);
+        public Vertex D = new Vertex(Val2, Val2);
+        public Vertex E = new Vertex(Val4, Val5);
+        public Vertex F = new Vertex(Val3, Val6);
+        public Vertex G = new Vertex(Val5, Val2);
+        public Vertex H = new Vertex(Val6, Val1);
 
         public Edge AB;
         public Edge BA;
@@ -67,8 +67,8 @@ namespace Truss2D.UnitTest.MathUnitTest
         [Test]
         public void Edge_DirectionFrom_HardCoded()
         {
-            var newEdge = new Edge(new Vertice(), new Vertice(2, 2));
-            Vector u = newEdge.DirectionFrom(new Vertice());
+            var newEdge = new Edge(new Vertex(), new Vertex(2, 2));
+            Vector u = newEdge.DirectionFrom(new Vertex());
             Assert.That((double)u.X, Is.EqualTo(System.Math.Sqrt(2) / 2.0).Within(0.01));
             Assert.That(u.Y, Is.EqualTo(u.X).Within( (decimal)0.01 ));
         }

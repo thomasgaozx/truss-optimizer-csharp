@@ -4,7 +4,7 @@ using Truss2D.Math;
 
 namespace Truss2D
 {
-    public class Joint : Vertice
+    public class Joint : Vertex
     {
         private List<Joint> neighbours; 
 
@@ -47,6 +47,6 @@ namespace Truss2D
             reactions = new List<Vector>();
         }
 
-        public Joint(Vertice v) : this(v.X, v.Y) { }
+        public Joint(Vertex v) : this(v.X, v.Y) { }
     }
 }

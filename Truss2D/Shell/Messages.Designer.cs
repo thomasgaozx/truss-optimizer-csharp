@@ -182,6 +182,16 @@ namespace Truss2D.Shell {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pin a joint.
+        ///    Syntax: &apos;pin a&apos;. This pins joint A,.
+        /// </summary>
+        internal static string Pin {
+            get {
+                return ResourceManager.GetString("Pin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Prints all added forces..
         /// </summary>
         internal static string PrintForces {
@@ -227,6 +237,26 @@ namespace Truss2D.Shell {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Re-pin a joint. 
+        ///    syntax: &apos;repin a&apos;. This repins joint A..
+        /// </summary>
+        internal static string RePin {
+            get {
+                return ResourceManager.GetString("RePin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Re-add a roller at a joint.
+        ///    Syntax: &apos;rerol a&apos;. This adds a roller at joint A..
+        /// </summary>
+        internal static string ReRol {
+            get {
+                return ResourceManager.GetString("ReRol", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Resets the coordinate of a particular joint. 
         ///    Syntax: &apos;reset a 3 4&apos;. This resets joint A to coordinate (3,4)..
         /// </summary>
@@ -251,6 +281,16 @@ namespace Truss2D.Shell {
         internal static string RestartMessage {
             get {
                 return ResourceManager.GetString("RestartMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add a roller support at a joint.
+        ///    Syntax: &apos;rol a&apos;. This adds a roller at joint A..
+        /// </summary>
+        internal static string Roller {
+            get {
+                return ResourceManager.GetString("Roller", resourceCulture);
             }
         }
     }

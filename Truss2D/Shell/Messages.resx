@@ -166,6 +166,10 @@ trusses.</value>
   <data name="MinInternalForce" xml:space="preserve">
     <value>Look up the minimum intenral force.</value>
   </data>
+  <data name="Pin" xml:space="preserve">
+    <value>Pin a joint.
+    Syntax: 'pin a'. This pins joint A,</value>
+  </data>
   <data name="PrintForces" xml:space="preserve">
     <value>Prints all added forces.</value>
   </data>
@@ -181,6 +185,14 @@ trusses.</value>
   <data name="Render" xml:space="preserve">
     <value>This solve for the truss and print out all solved internal forces.</value>
   </data>
+  <data name="RePin" xml:space="preserve">
+    <value>Re-pin a joint. 
+    syntax: 'repin a'. This repins joint A.</value>
+  </data>
+  <data name="ReRol" xml:space="preserve">
+    <value>Re-add a roller at a joint.
+    Syntax: 'rerol a'. This adds a roller at joint A.</value>
+  </data>
   <data name="ResetJointCoord" xml:space="preserve">
     <value>Resets the coordinate of a particular joint. 
     Syntax: 'reset a 3 4'. This resets joint A to coordinate (3,4).</value>
@@ -190,5 +202,9 @@ trusses.</value>
   </data>
   <data name="RestartMessage" xml:space="preserve">
     <value>Successfully restarted ...</value>
+  </data>
+  <data name="Roller" xml:space="preserve">
+    <value>Add a roller support at a joint.
+    Syntax: 'rol a'. This adds a roller at joint A.</value>
   </data>
 </root>

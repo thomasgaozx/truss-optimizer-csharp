@@ -11,9 +11,10 @@ namespace Truss2D.Shell
     /// <summary>
     /// Future features include:
     /// Add pin support - "pin"
-    /// Add roller support - "roll"
+    /// Add roller support - "rol"
     /// Save - save the file as json
     /// Display Edge - display the internal force of edge
+    /// Draw - draw the shape using simple graphics
     /// </summary>
     public class CommandProcessor
     {
@@ -48,6 +49,11 @@ namespace Truss2D.Shell
         public const string LookupAll = "seeall";
         public const string MinInternalForce = "minf";
         public const string MaxInternalForce = "maxf";
+
+        public const string PinSupport = "pin";
+        public const string RollerSupport = "rol";
+        public const string RePin = "repin";
+        public const string ReRol = "rerol";
         
         
         #endregion
@@ -66,15 +72,18 @@ namespace Truss2D.Shell
                 case Help:
                     PrintHelpMenu();
                     break;
+
                 case Restart:
                     builder.Restart();
                     enteredEdges.Clear();
                     Print(Messages.RestartMessage);
                     break;
+
                 case AddJoints:
                     while (AddJointToBuilder()) { }
                     ClearLine();
                     break;
+
                 case LinkJoints:
                     if (!(args.Length>1))
                         throw new ArgException($"Bad argument ...");
@@ -91,15 +100,17 @@ namespace Truss2D.Shell
                     
                     Print($"Linking successful ...");
                     break;
+
                 case ResetJointCoord:
                     if (!(args.Length == 4 && args[1].Length==1))
                         throw new Exception($"Bad arguments ...");
                     decimal newx = decimal.Parse(args[2]);
                     decimal newy = decimal.Parse(args[3]);
                     char jointc = args[1][0];
-                    builder.Model.ResetVerticeCoord(builder.GetJoint(jointc), newx, newy);
-                    builder.ResetVertice(jointc, newx, newy);
+                    builder.Model.ResetvertexCoord(builder.GetJoint(jointc), newx, newy);
+                    builder.Resetvertex(jointc, newx, newy);
                     break;
+
                 case AddForce:
                     if (!(args.Length==4 || args[1].Length==1))
                         throw new ArgException($"Bad argument ...");
@@ -107,6 +118,7 @@ namespace Truss2D.Shell
                         new Vector(decimal.Parse(args[2]), decimal.Parse(args[3])));
                     Print($"Force successfully added ...");
                     break;
+
                 case ClearForce:
                     if (args.Length < 2)
                         throw new Exception("No joint indicated ...");
@@ -117,16 +129,20 @@ namespace Truss2D.Shell
                         builder.Model.ClearJointForce(builder.GetJoint(args[i][0]));
                     Print($"All joints cleared");
                     break;
+
                 case PrintForces:
                     builder.PrintAllReactions();
                     break;
+
                 case PrintJoints:
                     builder.PrintAllJoints();
                     break;
+
                 case Render:
                     bool status = builder.Render();
                     Print(status ? "Render success ..." : "Render incomplete");
                     break;
+
                 case Lookup:
                     if (args.Length < 2)
                         throw new Exception("Wtf are you looking for ...");
@@ -141,6 +157,7 @@ namespace Truss2D.Shell
                         PrintInternalForce(internalForce);
                     }
                     break;
+
                 case LookupAll:
                     foreach(string arg in enteredEdges)
                     {
@@ -150,14 +167,41 @@ namespace Truss2D.Shell
                         PrintInternalForce(internalForce);
                     }
                     break;
+
                 case MinInternalForce:
                     decimal? min = builder.Model.MinInternalForce;
                     PrintInternalForce(min);
                     break;
+
                 case MaxInternalForce:
                     decimal? max = builder.Model.MaxInternalForce;
                     PrintInternalForce(max);
                     break;
+
+                case PinSupport:
+                    if (args.Length != 2 || args[1].Length != 1)
+                        throw new Exception("Bad arguments ..."); 
+                    builder.AddPin(args[1][0]);
+                    break;
+
+                case RePin:
+                    if (args.Length != 2 || args[1].Length != 1)
+                        throw new Exception("Bad arguments ...");
+                    builder.ChangePin(args[1][0]);
+                    break;
+
+                case RollerSupport:
+                    if (args.Length != 2 || args[1].Length != 1)
+                        throw new Exception("Bad arguments ...");
+                    builder.AddRoller(args[1][0]);
+                    break;
+
+                case ReRol:
+                    if (args.Length != 2 || args[1].Length != 1)
+                        throw new Exception("Bad arguments ...");
+                    builder.ChangeRoller(args[1][0]);
+                    break;
+
                 default:
                     throw new ArgException($"Command '{args[0]}' not recognized ...");
             }
@@ -175,11 +219,11 @@ namespace Truss2D.Shell
                 return false;
             else if (args.Length != 2)
                 throw new ArgException("Bad arg length ...");
-            Vertice newVertice = new Vertice(decimal.Parse(args[0]), decimal.Parse(args[1]));
-            builder.AddJoint(newVertice);
+            Vertex newvertex = new Vertex(decimal.Parse(args[0]), decimal.Parse(args[1]));
+            builder.AddJoint(newvertex);
 
             ClearLine();
-            Print("Joint " + (char)('A' + builder.CurrentAlphaPos - 1) + $" ({ newVertice.X.ToString("0.##")}, { newVertice.Y.ToString("0.##")})");
+            Print("Joint " + (char)('A' + builder.CurrentAlphaPos - 1) + $" ({ newvertex.X.ToString("0.##")}, { newvertex.Y.ToString("0.##")})");
             return true;
         }
 
@@ -200,6 +244,10 @@ namespace Truss2D.Shell
             Println(MinInternalForce, Messages.MinInternalForce);
             Println(MaxInternalForce, Messages.MaxInternalForce);
             Println(LookupAll, Messages.LookupAll);
+            Println(PinSupport, Messages.Pin);
+            Println(RollerSupport, Messages.Roller);
+            Println(RePin, Messages.RePin);
+            Println(ReRol, Messages.ReRol);
         }
 
         public void Println(string key, string value) {

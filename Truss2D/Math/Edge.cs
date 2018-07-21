@@ -8,12 +8,12 @@ namespace Truss2D.Math
     /// </summary>
     public class Edge
     {
-        protected Vertice A { get; private set; }
-        protected Vertice B { get; private set; }
+        protected Vertex A { get; private set; }
+        protected Vertex B { get; private set; }
 
-        public bool Contains(Vertice vertice)
+        public bool Contains(Vertex vertex)
         {
-            return vertice.Equals(A) || vertice.Equals(B);
+            return vertex.Equals(A) || vertex.Equals(B);
         }
 
         /// <summary>
@@ -23,7 +23,7 @@ namespace Truss2D.Math
         /// </summary>
         /// <param name="v"></param>
         /// <returns></returns>
-        public Vector DirectionFrom(Vertice v)
+        public Vector DirectionFrom(Vertex v)
         {
             decimal newX=0;
             decimal newY=0;
@@ -59,8 +59,8 @@ namespace Truss2D.Math
         public override int GetHashCode()
         {
             var hashCode = -12123;
-            hashCode = hashCode * -1521134295 + EqualityComparer<Vertice>.Default.GetHashCode(A) 
-                + EqualityComparer<Vertice>.Default.GetHashCode(B);
+            hashCode = hashCode * -1521134295 + EqualityComparer<Vertex>.Default.GetHashCode(A) 
+                + EqualityComparer<Vertex>.Default.GetHashCode(B);
             return hashCode;
         }
 
@@ -68,7 +68,7 @@ namespace Truss2D.Math
 
         #region Constructor
 
-        public Edge(Vertice a, Vertice b)
+        public Edge(Vertex a, Vertex b)
         {
             A = a;
             B = b;
