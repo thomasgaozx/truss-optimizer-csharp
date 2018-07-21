@@ -101,9 +101,14 @@ namespace Truss2D
         {
             var keys = internalForces.Keys.ToArray();
             foreach (var key in keys)
-            {
                 internalForces[key] = null;
-            }
+        }
+
+        public void ClearAllReactions()
+        {
+            var joints = jointMap.Keys.ToArray();
+            foreach (var joint in joints)
+                jointMap[joint].ClearReactions();
         }
 
         /// <summary>

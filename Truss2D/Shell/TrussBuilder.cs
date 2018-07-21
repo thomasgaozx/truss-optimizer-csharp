@@ -157,7 +157,15 @@ namespace Truss2D.Shell
             knownForces.Add(new Tuple<Vertex, Vector>(joint, force));
         }
 
-        public void SolveForReactions()
+        private void ClearReactions()
+        {
+            if (pin != null)
+                pin.X = pin.Y = null;
+            if (roller != null)
+                roller.Y = null;
+        }
+
+        private void SolveForReactions()
         {
             if (roller!=null && pin != null && knownForces.Count>0)
             {
@@ -185,6 +193,8 @@ namespace Truss2D.Shell
         /// <returns></returns>
         public bool Render()
         {
+            ClearReactions();
+            model.ClearAllReactions();
             SolveForReactions();
 
             foreach (var tuple in knownForces)
