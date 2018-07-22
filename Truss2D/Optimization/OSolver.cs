@@ -1,32 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Truss2D.Math;
-using Truss2D.Optimization;
+using Truss2D.Simulator;
 
-namespace Truss2D
+namespace Truss2D.Optimization
 {
-    /// <summary>
-    /// Capable of possibly solving 1 joint.
-    /// </summary>
-    public class Solver
+    public class OSolver
     {
-        // push all the force component to it.
-        private List<Tuple<Edge,Vector>> unknowns;
         private Vector knownForce;
-        private Dictionary<Edge, decimal?> internalForces;
+        private Dictionary<Member, decimal?> internalForces;
+        private List<Tuple<Member, Vector>> unknowns;
 
-        public Solver(Dictionary<Edge, decimal?> internalForces)
+        public OSolver(Dictionary<Member, decimal?> internalForces)
         {
-            unknowns = new List<Tuple<Edge, Vector>>();
+            unknowns = new List<Tuple<Member, Vector>>();
             knownForce = new Vector();
             this.internalForces = internalForces;
+        }
+
+        public void Clear()
+        {
+            unknowns.Clear();
+            knownForce = new Vector();
         }
 
         public void JointDecomposition(Joint joint)
         {
             Clear();
-            
+
             // Add all reactions
             foreach (var reaction in joint.Reactions)
             {
@@ -36,13 +40,13 @@ namespace Truss2D
             // Add all neighbours
             foreach (var neighbour in joint.Neightbours)
             {
-                Edge newEdge = new Edge(new Vertex(joint), new Vertex(neighbour)); // clumsiness to be fixed
+                Member newEdge = new Member(joint, neighbour); // clumsiness to be fixed
 
                 decimal? internalForce = internalForces[newEdge];
                 Vector direction = newEdge.DirectionFrom(joint);
 
                 if (internalForce == null)
-                    unknowns.Add(new Tuple<Edge, Vector>(newEdge, direction));
+                    unknowns.Add(new Tuple<Member, Vector>(newEdge, direction));
                 else
                 {
                     Vector knownInternalForce = new Vector(newEdge.DirectionFrom(joint));
@@ -51,40 +55,6 @@ namespace Truss2D
                 }
             }
 
-        }
-
-        public void Clear()
-        {
-            unknowns.Clear();
-            knownForce = new Vector();
-        }
-
-        /// <summary>
-        /// returns number of joints solved,
-        /// false otherwise
-        /// </summary>
-        /// <returns></returns>
-        public int Solve(out bool complete)
-        {
-            Vector negativeKnown = new Vector(knownForce);
-            negativeKnown.Scale(-1);
-            Matrix matrix = new Matrix(unknowns.Select(edgeTuple => edgeTuple.Item2).ToList(), negativeKnown);
-            int rank= matrix.ReduceToRREF();
-
-            complete = true;
-            int numSolved = 0;
-            for (int i=0; i<rank; ++i)
-            {
-                int pos = FetchSolvedPosition(matrix, i);
-                if (pos > -1)
-                {
-                    internalForces[unknowns[pos].Item1] = matrix[i, matrix.N - 1];
-                    ++numSolved;
-                }
-            }
-
-            complete = numSolved == unknowns.Count;
-            return numSolved;
         }
 
         public const int QuitSignal = -1;
@@ -117,7 +87,6 @@ namespace Truss2D
             return numSolved;
         }
 
-
         /// <summary>
         /// Might through exception
         /// </summary>
@@ -132,7 +101,7 @@ namespace Truss2D
             state = pos++;
             ++limit;
             for (; pos < limit && matrix[row, pos] == 0; ++pos) { }
-            return pos==limit? state:-1;
+            return pos == limit ? state : -1;
         }
 
     }

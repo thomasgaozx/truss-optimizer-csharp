@@ -81,7 +81,7 @@ namespace Truss2D
         /// <summary>
         /// For shell application
         /// </summary>
-        public void ResetvertexCoord(Vertex v, decimal x, decimal y)
+        public void ResetVertexCoord(Vertex v, decimal x, decimal y)
         {
             var newvertex = new Vertex(x, y);
             if (jointMap.ContainsKey(newvertex))

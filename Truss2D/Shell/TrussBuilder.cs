@@ -46,11 +46,12 @@ namespace Truss2D.Shell
             }
         }
 
-        public void Resetvertex(char a, decimal newx, decimal newy)
+        public void ResetVertex(char a, decimal newx, decimal newy)
         {
             int pos = a - 'a';
             if (pos > joints.Count)
                 throw new Exception("Bad joint ...");
+            model.ResetVertexCoord(GetJoint(a), newx, newy);
             joints[pos].ResetCoordinate(newx, newy);
         }
 

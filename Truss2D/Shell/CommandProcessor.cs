@@ -107,8 +107,8 @@ namespace Truss2D.Shell
                     decimal newx = decimal.Parse(args[2]);
                     decimal newy = decimal.Parse(args[3]);
                     char jointc = args[1][0];
-                    builder.Model.ResetvertexCoord(builder.GetJoint(jointc), newx, newy);
-                    builder.Resetvertex(jointc, newx, newy);
+                    builder.Model.ResetVertexCoord(builder.GetJoint(jointc), newx, newy);
+                    builder.ResetVertex(jointc, newx, newy);
                     break;
 
                 case AddForce:
@@ -279,20 +279,16 @@ namespace Truss2D.Shell
         public class ArgException : Exception
         {
             public ArgException()
-            {
-            }
+            { }
 
             public ArgException(string message) : base(message)
-            {
-            }
+            { }
 
             public ArgException(string message, Exception innerException) : base(message, innerException)
-            {
-            }
+            { }
 
             protected ArgException(SerializationInfo info, StreamingContext context) : base(info, context)
-            {
-            }
+            { }
         }
 
     }
