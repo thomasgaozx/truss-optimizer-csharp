@@ -14,6 +14,11 @@
             Y = y;
         }
 
+        public void Shift (decimal x, decimal y)
+        {
+            X += x;
+            Y += y;
+        }
         #region Overridden
 
         public override bool Equals(object obj)

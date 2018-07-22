@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Optimization\CharEdge.cs" />
+    <Compile Include="Optimization\OSolver.cs" />
     <Compile Include="Optimization\OTruss.cs" />
     <Compile Include="Shell\CommandProcessor.cs" />
     <Compile Include="Shell\ConsoleFormat.cs" />
