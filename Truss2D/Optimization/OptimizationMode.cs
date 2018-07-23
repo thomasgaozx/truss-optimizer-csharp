@@ -191,6 +191,9 @@ namespace Truss2D.Optimization
                 case 7:
                     truss.Level7Optimize(cycle);
                     break;
+                case 8:
+                    truss.Level8Optimize(cycle);
+                    break;
                 default:
                     throw new Exception("No such level ...");
             }

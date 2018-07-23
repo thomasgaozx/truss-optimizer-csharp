@@ -26,6 +26,7 @@ namespace Truss2D.Optimization
         public const decimal Level5 = 0.05M;
         public const decimal Level6 = 0.02M;
         public const decimal Level7 = 0.01M;
+        public const decimal Level8 = 0.001M;
 
         public static decimal[,] Triangle => new decimal[4, 2] 
         { 
@@ -202,6 +203,12 @@ namespace Truss2D.Optimization
         public void Level7Optimize(decimal[,] cycle)
         {
             ScaleCycle(cycle, OptimizationGeometry.Level7);
+            Level1Optimize(cycle);
+        }
+
+        public void Level8Optimize(decimal[,] cycle)
+        {
+            ScaleCycle(cycle, OptimizationGeometry.Level8);
             Level1Optimize(cycle);
         }
 

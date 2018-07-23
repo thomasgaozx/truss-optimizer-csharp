@@ -35,5 +35,3 @@ Optimization level are listed below:
 	Level 5: 0.05
 	Level 6: 0.02
 	Level 7: 0.01
-
-
