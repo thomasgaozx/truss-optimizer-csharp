@@ -1,0 +1,39 @@
+﻿[Optimization Mode]
+Optimization mode provides ways to optimize a truss. 
+To enter optimization mode, type 'beast-mode', and 
+press Enter.
+
+Unlike regular truss calculator, optimization mode
+does not account for bad truss buildings (e.g. 
+extra joints, overlapping joints, etc.), make sure
+that the truss works in Regular Mode before 
+proceeding to use optimization mode. It is 
+recommended that you write the commands in a text 
+file, save the file and paste it to the 
+optimization mode (or an empty console app).
+
+Here are a few core commands of the Optimization
+Mode:
+'add': same as in regular mode.
+'link': same as in regular mode.
+'exert': same as in regular mode.
+'optimize': starts optimization.
+	'optimize tri 3': starts level 3 triangular optimization.
+	'optimize tetra 4': starts level 4 tetrahedral optimization.
+	'optimize hex 2': starts level 2 hexagonal optimization.
+	'optimize oct 5': starts level 5 octagonal optimization.
+	Optimization Level see Appendix ...
+'newcoord': see all new coordinates after optimization.
+'cost': see current cost.
+'works': see if the current truss works or not.
+
+Optimization level are listed below:
+	Level 1: 1
+	Level 2: 0.5
+	Level 3: 0.2
+	Level 4: 0.1
+	Level 5: 0.05
+	Level 6: 0.02
+	Level 7: 0.01
+
+

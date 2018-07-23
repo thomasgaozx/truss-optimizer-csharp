@@ -1,8 +1,9 @@
-﻿
+﻿using static Truss2D.Shell.ConsoleFormat;
 using System.Collections.Generic;
 using System.Linq;
 using Truss2D;
 using Truss2D.Math;
+using Truss2D.Shell;
 using Truss2D.Simulator;
 
 /// <summary>
@@ -11,6 +12,7 @@ using Truss2D.Simulator;
 /// </summary>
 namespace Truss2D.Optimization
 {
+    #region Helpers
 
     static class OptimizationGeometry
     {
@@ -25,11 +27,46 @@ namespace Truss2D.Optimization
         public const decimal Level6 = 0.02M;
         public const decimal Level7 = 0.01M;
 
+        public static decimal[,] Triangle => new decimal[4, 2] 
+        { 
+            { 0, 0 }, 
+            { 0, 1 }, 
+            { sqrt3 / 2, -1.5M }, 
+            { -sqrt3, 0 }
+        };
 
-        public static readonly decimal[,] Triangle = new decimal[4, 2] { { 0, 0 }, { 0, 1 }, { sqrt3 / 2, 1.5M }, { -sqrt3, 0 } };
-        public static readonly decimal[,] Cross = new decimal[5, 2] { {0, 0},{ 0, 1 }, { sqrt2, -sqrt2 }, { -sqrt2, -sqrt2 }, { -sqrt2, sqrt2 } };
-        public static readonly decimal[,] Hexagon = new decimal[7, 2] { { 0, 0 }, { 0, 1 }, { sqrt3 / 2, -0.5M }, { 0, -1 }, { -sqrt3 / 2, -0.5M }, { -sqrt3 / 2, 0.5M }, { 0, 1 } };
-        public static readonly decimal[,] Octagon = new decimal[9, 2] { { 0, 0 }, { 0, 1 }, { sqrt2 / 2, sqrt2 / 2 - 1 }, { 1 - sqrt2 / 2, -sqrt2 / 2 }, { sqrt2 / 2 - 1, -sqrt2 / 2 }, { -sqrt2 / 2, sqrt2 / 2 - 1 }, { -sqrt2 / 2, 1 - sqrt2 / 2 }, { sqrt2 / 2 - 1, sqrt2 / 2 }, { 1 - sqrt2 / 2, sqrt2 / 2 } };
+        public static decimal[,] Cross => new decimal[5, 2]
+        {
+            { 0, 0 },
+            { 0, 1 }, 
+            { sqrt2, -sqrt2 }, 
+            { -sqrt2, -sqrt2 }, 
+            { -sqrt2, sqrt2 }
+        };
+
+        public static decimal[,] Hexagon => new decimal[7, 2] 
+        { 
+            { 0, 0 }, 
+            { 0, 1 }, 
+            { sqrt3 / 2, -0.5M }, 
+            { 0, -1 }, 
+            { -sqrt3 / 2, -0.5M }, 
+            { -sqrt3 / 2, 0.5M }, 
+            { 0, 1 }
+        };
+
+        public static decimal[,] Octagon => new decimal[9, 2] 
+        { 
+            { 0, 0 }, 
+            { 0, 1 }, 
+            { sqrt2 / 2, sqrt2 / 2 - 1 }, 
+            { 1 - sqrt2 / 2, -sqrt2 / 2 }, 
+            { sqrt2 / 2 - 1, -sqrt2 / 2 }, 
+            { -sqrt2 / 2, sqrt2 / 2 - 1 }, 
+            { -sqrt2 / 2, 1 - sqrt2 / 2 }, 
+            { sqrt2 / 2 - 1, sqrt2 / 2 }, 
+            { 1 - sqrt2 / 2, sqrt2 / 2 }
+        };
 
     }
 
@@ -51,17 +88,60 @@ namespace Truss2D.Optimization
 
     public enum ZoomExtent { None, Min, Medium, Max };
 
+    #endregion
+
     public class OTruss
     {
+
         private List<Joint> joints;
         private List<char> freeJoints;
         private Dictionary<Member, decimal?> members;
+
+        public OTruss()
+        {
+            joints = new List<Joint>();
+            freeJoints = new List<char>();
+            members = new Dictionary<Member, decimal?>();
+        }
+
+        public void PrintJoints()
+        {
+            for (int i = 0; i < joints.Count; ++i)
+            {
+                var joint = joints[i];
+                PrintWarning($"Joint {(char)('A' + i)}: ({joint.X.ToString("0.####")}, {joint.Y.ToString("0.####")})");
+            }
+        }
+
+        public void AddJoint(Joint joint, bool free = false)
+        {
+            if (free)
+                freeJoints.Add((char)('a' + joints.Count));
+            joints.Add(joint);
+        }
+
+        public void AddEdge(char a, char b)
+        {
+            var jointA = GetJoint(a);
+            var jointB = GetJoint(b);
+
+            members.Add(new Member(jointA, jointB), null);
+            jointA.AddNeighbour(jointB);
+            jointB.AddNeighbour(jointA);
+        }
+
+        public void AddForce(char a, decimal x, decimal y)
+        {
+            GetJoint(a).AddReaction(new Vector(x, y));
+        }        
 
         private const decimal JointCost = 5;
         private const decimal CostPerMeter = 10;
         private const decimal MinimumMemberLength = 3;
         private const decimal MinForce = -9;
         private const decimal MaxForce = 12;
+
+        public int NumOfJoints => joints.Count;
 
         public static bool ForceIsValid(decimal force) => !(force < MinForce || force > MaxForce);
 
@@ -75,14 +155,18 @@ namespace Truss2D.Optimization
             for (int i = 0; i < cycleLength; ++i)
             {
                 cycle[i, 0] *= scale;
+                cycle[i, 1] *= scale;
             }
         }
 
         public void Level1Optimize(decimal[,] cycle)
         {
             if (!(MemberWorks() && Pass()))
-                throw new System.Exception("This shit doesn't work");
-            while (Iteration(cycle)) { }
+                throw new System.Exception("Initial Condition is Not Met");
+            for (int i = 0; i < 200 && Iteration(cycle); ++i)
+            {
+                PrintWarning($"Iteration {i} ... ");
+            }
         }
 
         public void Level2Optimize(decimal[,] cycle)
@@ -132,8 +216,7 @@ namespace Truss2D.Optimization
             decimal minCost = GetCost();
             bool progress = false;
             int cycleLength = cycle.Length / 2;
-            int total = (int)System.Math.Pow(cycleLength, freeJoints.Count);
-            List<Vertex> bestCombination = new List<Vertex>(freeJoints.Count);
+            Vertex[] bestCombination = new Vertex[freeJoints.Count];
 
             for (int i=0; i<freeJoints.Count; ++i)
             {
@@ -141,14 +224,16 @@ namespace Truss2D.Optimization
                 bestCombination[i] = new Vertex(cur.X, cur.Y);
             }
 
+            int total = (int)System.Math.Pow(cycleLength, freeJoints.Count);
             for (int i=1; i<total; ++i)
             {
                 int pos = i;
                 
-                for (int step =0; step<cycleLength; ++i)
+                for (int step =0; step<freeJoints.Count; ++step)
                 {
                     int posDivCycLen = pos / cycleLength;
                     int remainder = pos - posDivCycLen * cycleLength;
+                    pos = posDivCycLen;
 
                     GetJoint(freeJoints[step]).Shift(cycle[remainder,0], cycle[remainder,1]);
                 }
@@ -157,6 +242,7 @@ namespace Truss2D.Optimization
 
                 if (MemberWorks() && Pass() && money < minCost)
                 {
+                    progress = true;
                     for (int j = 0; j < freeJoints.Count; ++j)
                     {
                         var freejoint = GetJoint(freeJoints[j]);
@@ -166,14 +252,17 @@ namespace Truss2D.Optimization
                 }
             }
 
+
+            for (int i=0; i<freeJoints.Count; ++i)
+            {
+                Vertex v = bestCombination[i];
+                GetJoint(freeJoints[i]).ResetCoordinate(v.X, v.Y);
+            }
+
+
             if (progress)
             {
-                for (int i=0; i<freeJoints.Count; ++i)
-                {
-                    Vertex v = bestCombination[i];
-                    GetJoint(freeJoints[i]).ResetCoordinate(v.X, v.Y);
-                }
-
+                PrintWarning($"Cost: {minCost}");
                 return true;
             }
             
@@ -183,6 +272,7 @@ namespace Truss2D.Optimization
         public void ClearMembers()
         {
             var edges = members.Keys.ToArray();
+            members.Clear();
             foreach (var edge in edges)
                 members[edge] = null;
         }
@@ -256,8 +346,6 @@ namespace Truss2D.Optimization
 
             return true;
         }
-
-
 
     }
 }

@@ -20,6 +20,7 @@ namespace Truss2D.Shell
 
         public int CurrentAlphaPos => joints.Count;
 
+        public List<Vertex> Joints => joints;
 
         public TrussBuilder()
         {
@@ -31,6 +32,16 @@ namespace Truss2D.Shell
         #endregion
 
         #region Console Utility
+
+        public void PrintPinForces()
+        {
+            Print($"[{pin.X}, {pin.Y}]");
+        }
+
+        public void PrintRollerForces()
+        {
+            Print($"[0, {roller.Y}]");
+        }
 
         public void PrintAllReactions()
         {

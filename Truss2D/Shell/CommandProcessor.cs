@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using Truss2D.Math;
+using Truss2D.Optimization;
 using static Truss2D.Shell.ConsoleFormat;
 namespace Truss2D.Shell
 {
@@ -34,6 +35,7 @@ namespace Truss2D.Shell
 
         public const string PrintJoints = "printj";
         public const string PrintForces = "printf";
+        public const string PrintSupportReactions = "printr";
 
         /// <summary>
         /// Syntax: 'exert a 5 3'
@@ -55,7 +57,9 @@ namespace Truss2D.Shell
         public const string RePin = "repin";
         public const string ReRol = "rerol";
         public const string GetCost = "cost";
-        
+
+        public const string Optimization = "beast-mode";
+
         #endregion
 
         #region Private Field
@@ -138,6 +142,13 @@ namespace Truss2D.Shell
                     builder.PrintAllJoints();
                     break;
 
+                case PrintSupportReactions:
+                    Prompt("Pin: ");
+                    builder.PrintPinForces();
+                    Prompt("Roller: ");
+                    builder.PrintRollerForces();
+                    break;
+
                 case Render:
                     bool status = builder.Render();
                     Print(status ? "Render success ..." : "Render incomplete");
@@ -206,6 +217,10 @@ namespace Truss2D.Shell
                     Print(builder.Model.GetPrice().ToString("0.###"));
                     break;
 
+                case Optimization:
+                    new OptimizationMode().Start();
+                    break;
+
                 default:
                     throw new ArgException($"Command '{args[0]}' not recognized ...");
             }
@@ -252,6 +267,9 @@ namespace Truss2D.Shell
             Println(RollerSupport, Messages.Roller);
             Println(RePin, Messages.RePin);
             Println(ReRol, Messages.ReRol);
+            Println(PrintSupportReactions, "Prints all reaction forces");
+            Println(GetCost, "Gets the cost of the truss");
+            Println(Optimization, "Enter beast mode");
         }
 
         public void Println(string key, string value) {

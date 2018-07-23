@@ -44,7 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Optimization\CharEdge.cs" />
+    <Compile Include="Optimization\OptimizationMode.cs" />
     <Compile Include="Optimization\OSolver.cs" />
     <Compile Include="Optimization\OTruss.cs" />
     <Compile Include="Shell\CommandProcessor.cs" />
@@ -74,6 +74,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="optimization_help.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Welcome.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

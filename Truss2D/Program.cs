@@ -9,7 +9,7 @@ namespace Truss2D
     {
 
         static CommandProcessor processor = new CommandProcessor();
-        const string QuitKeyword = "quit";
+        public const string QuitKeyword = "quit";
         public static void Main(string[] args)
         {
             Welcome();
