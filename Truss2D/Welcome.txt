@@ -1,9 +1,12 @@
 ﻿==================Author: Thomas Gao==================
-====================== v 1.0.4 =======================
-              (Last Updated: 2018-07-21)
+====================== v 1.0.5 =======================
+              (Last Updated: 2018-07-22)
 Welcome to the Truss Solver. This is an application 
 that simulates 2D trusses and solve for internal 
 forces. 
+
+New Features v1.0.5:
+Added Beast Mode. Read more about it in the help menu.
 
 New Features v1.0.4:
 Solving Support Reactions feature is officially 

@@ -206,6 +206,7 @@ namespace Truss2D.Optimization
             Level1Optimize(cycle);
         }
 
+
         public void Level8Optimize(decimal[,] cycle)
         {
             ScaleCycle(cycle, OptimizationGeometry.Level8);
