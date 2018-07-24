@@ -17,12 +17,14 @@ Mode:
 'add': same as in regular mode.
 'link': same as in regular mode.
 'exert': same as in regular mode.
-'optimize': starts optimization.
-	'optimize tri 3': starts level 3 triangular optimization.
-	'optimize tetra 4': starts level 4 tetrahedral optimization.
-	'optimize hex 2': starts level 2 hexagonal optimization.
-	'optimize oct 5': starts level 5 octagonal optimization.
+'op': starts optimization.
+	'op 3 1': starts 1 depth triangular optimization.
+	'op 4 0.1': starts 0.1 depth tetrahedral optimization.
+	'op 6 0.01': starts 0.01 depth hexagonal optimization.
+	'op 8 0.01': starts 0.01 depth octagonal optimization.
 	Optimization Level see Appendix ...
+'gop': starts grid optimization.
+	'gop 0.3': starts grid optimization with depth 0.3.
 'newcoord': see all new coordinates after optimization.
 'cost': see current cost.
 'works': see if the current truss works or not.

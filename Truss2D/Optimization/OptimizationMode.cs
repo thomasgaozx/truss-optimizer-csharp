@@ -13,7 +13,8 @@ namespace Truss2D.Optimization
     {
         private static OTruss truss;
 
-        public const string OptimizeCommand = "optimize";
+        public const string OptimizeCommand = "op";
+        public const string GridOptimizationCommand = "gop";
         public const string SeeAllCoordinateCommand = "newcoord";
         public const string Works = "works";
 
@@ -21,6 +22,7 @@ namespace Truss2D.Optimization
         public const string Cross = "tetra";
         public const string Hexagon = "hex";
         public const string Octagon = "oct";
+        public const string Grid = "grid";
 
         public OptimizationMode()
         {
@@ -104,7 +106,11 @@ namespace Truss2D.Optimization
 
                     // optimize hex 2
                 case OptimizeCommand:
-                    Optimize(args[1], int.Parse(args[2]));
+                    truss.Optimize(int.Parse(args[1]), decimal.Parse(args[2]));
+                    break;
+
+                case GridOptimizationCommand:
+                    truss.GridOptimize(decimal.Parse(args[1]));
                     break;
 
                 case SeeAllCoordinateCommand:
@@ -143,60 +149,6 @@ namespace Truss2D.Optimization
             PrintWarning("Joint " + (char)('A' + truss.NumOfJoints - 1) + $" ({ newJoint.X.ToString("0.##")}, { newJoint.Y.ToString("0.##")}){(isFree?" [FREE]":"")}");
             return true;
 
-        }
-
-        static void Optimize(string geometry, int level)
-        {
-            switch (geometry)
-            {
-                case Triangle:
-                    OptimizeLevel(OptimizationGeometry.Triangle, level);
-                    break;
-                case Cross:
-                    OptimizeLevel(OptimizationGeometry.Cross, level);
-                    break;
-                case Hexagon:
-                    OptimizeLevel(OptimizationGeometry.Hexagon, level);
-                    break;
-                case Octagon:
-                    OptimizeLevel(OptimizationGeometry.Octagon, level);
-                    break;
-                default:
-                    throw new Exception("Unrecognized geometry ...");
-            }
-        }
-
-        static void OptimizeLevel(decimal[,] cycle, int level)
-        {
-            switch (level)
-            {
-                case 1:
-                    truss.Level1Optimize(cycle);
-                    break;
-                case 2:
-                    truss.Level2Optimize(cycle);
-                    break;
-                case 3:
-                    truss.Level3Optimize(cycle);
-                    break;
-                case 4:
-                    truss.Level4Optimize(cycle);
-                    break;
-                case 5:
-                    truss.Level5Optimize(cycle);
-                    break;
-                case 6:
-                    truss.Level6Optimize(cycle);
-                    break;
-                case 7:
-                    truss.Level7Optimize(cycle);
-                    break;
-                case 8:
-                    truss.Level8Optimize(cycle);
-                    break;
-                default:
-                    throw new Exception("No such level ...");
-            }
         }
 
     }

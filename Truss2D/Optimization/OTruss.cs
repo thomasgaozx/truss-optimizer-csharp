@@ -16,57 +16,35 @@ namespace Truss2D.Optimization
 
     static class OptimizationGeometry
     {
-        private static readonly decimal sqrt3 = (decimal)System.Math.Sqrt(3);
-        private static readonly decimal sqrt2 = (decimal)System.Math.Sqrt(2);
 
-        public const decimal Level1 = 1;
-        public const decimal Level2 = 0.5M;
-        public const decimal Level3 = 0.2M;
-        public const decimal Level4 = 0.1M;
-        public const decimal Level5 = 0.05M;
-        public const decimal Level6 = 0.02M;
-        public const decimal Level7 = 0.01M;
-        public const decimal Level8 = 0.001M;
+        public static decimal[,] GetShiftGeometry(int numOfCorners)
+        {
+            decimal[,] collection = new decimal[numOfCorners+1, 2];
+            collection[0, 0] = collection[0,1] = 0;
 
-        public static decimal[,] Triangle => new decimal[4, 2] 
-        { 
-            { 0, 0 }, 
-            { 0, 1 }, 
-            { sqrt3 / 2, -1.5M }, 
-            { -sqrt3, 0 }
-        };
+            double deltaTheta = 2*System.Math.PI / numOfCorners;
+            double theta = 0;
 
-        public static decimal[,] Cross => new decimal[5, 2]
+            for (int i=0; i < numOfCorners; theta+=deltaTheta)
+            {
+                ++i;
+                collection[i, 0] = (decimal)System.Math.Cos(theta);
+                collection[i, 1] = (decimal)System.Math.Sin(theta);
+            }
+            return collection;
+        }
+
+        public static decimal[,] Grid => new decimal[9, 2]
         {
             { 0, 0 },
-            { 0, 1 }, 
-            { sqrt2, -sqrt2 }, 
-            { -sqrt2, -sqrt2 }, 
-            { -sqrt2, sqrt2 }
-        };
-
-        public static decimal[,] Hexagon => new decimal[7, 2] 
-        { 
-            { 0, 0 }, 
-            { 0, 1 }, 
-            { sqrt3 / 2, -0.5M }, 
-            { 0, -1 }, 
-            { -sqrt3 / 2, -0.5M }, 
-            { -sqrt3 / 2, 0.5M }, 
-            { 0, 1 }
-        };
-
-        public static decimal[,] Octagon => new decimal[9, 2] 
-        { 
-            { 0, 0 }, 
-            { 0, 1 }, 
-            { sqrt2 / 2, sqrt2 / 2 - 1 }, 
-            { 1 - sqrt2 / 2, -sqrt2 / 2 }, 
-            { sqrt2 / 2 - 1, -sqrt2 / 2 }, 
-            { -sqrt2 / 2, sqrt2 / 2 - 1 }, 
-            { -sqrt2 / 2, 1 - sqrt2 / 2 }, 
-            { sqrt2 / 2 - 1, sqrt2 / 2 }, 
-            { 1 - sqrt2 / 2, sqrt2 / 2 }
+            { 0, 1 },
+            { 1, 1},
+            { 1, 0 },
+            { -1, 1},
+            { -1, 0},
+            { -1, -1 },
+            { 0, -1 },
+            { 1, -1 }
         };
 
     }
@@ -160,7 +138,7 @@ namespace Truss2D.Optimization
             }
         }
 
-        public void Level1Optimize(decimal[,] cycle)
+        public void BaseOptimization(decimal[,] cycle)
         {
             if (!(MemberWorks() && Pass()))
                 throw new System.Exception("Initial Condition is Not Met");
@@ -170,47 +148,32 @@ namespace Truss2D.Optimization
             }
         }
 
-        public void Level2Optimize(decimal[,] cycle)
+        public void Optimize(int geometryNum, decimal scale)
         {
-            ScaleCycle(cycle, OptimizationGeometry.Level2);
-            Level1Optimize(cycle);
+            var cycle = OptimizationGeometry.GetShiftGeometry(geometryNum);
+
+            int cyclen = cycle.Length / 2;
+            for (int i=0; i<cyclen; ++i)
+            {
+                cycle[i, 0] *= scale;
+                cycle[i, 1] *= scale;
+            }
+
+            BaseOptimization(cycle);
         }
 
-        public void Level3Optimize(decimal[,] cycle)
+        public void GridOptimize(decimal scale)
         {
-            ScaleCycle(cycle, OptimizationGeometry.Level3);
-            Level1Optimize(cycle);
-        }
+            var cycle = OptimizationGeometry.Grid;
+            
+            int cyclen = cycle.Length / 2;
+            for (int i = 0; i < cyclen; ++i)
+            {
+                cycle[i, 0] *= scale;
+                cycle[i, 1] *= scale;
+            }
 
-        public void Level4Optimize(decimal[,] cycle)
-        {
-            ScaleCycle(cycle, OptimizationGeometry.Level4);
-            Level1Optimize(cycle);
-        }
-
-        public void Level5Optimize(decimal[,] cycle)
-        {
-            ScaleCycle(cycle, OptimizationGeometry.Level5);
-            Level1Optimize(cycle);
-        }
-
-        public void Level6Optimize(decimal[,] cycle)
-        {
-            ScaleCycle(cycle, OptimizationGeometry.Level6);
-            Level1Optimize(cycle);
-        }
-
-        public void Level7Optimize(decimal[,] cycle)
-        {
-            ScaleCycle(cycle, OptimizationGeometry.Level7);
-            Level1Optimize(cycle);
-        }
-
-
-        public void Level8Optimize(decimal[,] cycle)
-        {
-            ScaleCycle(cycle, OptimizationGeometry.Level8);
-            Level1Optimize(cycle);
+            BaseOptimization(cycle);
         }
 
         /// <summary>
@@ -225,14 +188,18 @@ namespace Truss2D.Optimization
             bool progress = false;
             int cycleLength = cycle.Length / 2;
             Vertex[] bestCombination = new Vertex[freeJoints.Count];
+            Vertex[] currentCombination = new Vertex[freeJoints.Count];
+            int[] currentState = new int[freeJoints.Count];
 
             for (int i=0; i<freeJoints.Count; ++i)
             {
                 var cur = GetJoint(freeJoints[i]);
                 bestCombination[i] = new Vertex(cur.X, cur.Y);
+                currentCombination[i] = new Vertex(cur.X, cur.Y);
             }
 
             int total = (int)System.Math.Pow(cycleLength, freeJoints.Count);
+
             for (int i=1; i<total; ++i)
             {
                 int pos = i;
@@ -243,7 +210,15 @@ namespace Truss2D.Optimization
                     int remainder = pos - posDivCycLen * cycleLength;
                     pos = posDivCycLen;
 
-                    GetJoint(freeJoints[step]).Shift(cycle[remainder,0], cycle[remainder,1]);
+                    if (currentState[step]!=remainder)
+                    {
+                        currentState[step] = remainder;
+                        Vertex node = currentCombination[step];
+                        Joint joint = GetJoint(freeJoints[step]);
+                        joint.ResetCoordinate(node.X, node.Y);
+                        joint.Shift(cycle[remainder, 0], cycle[remainder, 1]);
+                    }
+
                 }
 
                 decimal money = GetCost();
@@ -350,7 +325,9 @@ namespace Truss2D.Optimization
             }
 
             if (burndown.Count != 0)
-                throw new System.Exception("Fucking unsolvable ..");
+            {
+                PrintDanger("One unsolvable case encountered ...");
+            }
 
             return true;
         }
