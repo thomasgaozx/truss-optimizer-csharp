@@ -210,7 +210,7 @@ namespace Truss2D.Optimization
                     int remainder = pos - posDivCycLen * cycleLength;
                     pos = posDivCycLen;
 
-                    if (currentState[step]!=remainder)
+                    if (currentState[step] !=remainder)
                     {
                         currentState[step] = remainder;
                         Vertex node = currentCombination[step];
