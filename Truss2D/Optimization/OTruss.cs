@@ -116,7 +116,7 @@ namespace Truss2D.Optimization
 
         private const decimal JointCost = 5;
         private const decimal CostPerMeter = 10;
-        private const decimal MinimumMemberLength = 3;
+        private const decimal MinimumMemberLength = 1;
         private const decimal MinForce = -9;
         private const decimal MaxForce = 12;
 

@@ -53,7 +53,7 @@ namespace Truss2D.Shell
             for (int i = 0; i < joints.Count; ++i)
             {
                 var joint = joints[i];
-                Print($"Joint {(char)('A' + i)}: ({joint.X.ToString("0.##")}, {joint.X.ToString("0.##")})");
+                Print($"Joint {(char)('A' + i)}: ({joint.X.ToString("0.##")}, {joint.Y.ToString("0.##")})");
             }
         }
 

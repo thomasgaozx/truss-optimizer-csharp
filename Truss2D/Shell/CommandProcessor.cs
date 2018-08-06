@@ -214,7 +214,7 @@ namespace Truss2D.Shell
                     break;
 
                 case GetCost:
-                    Print(builder.Model.GetPrice().ToString("0.###"));
+                    Print(builder.Model.GetPrice().ToString("0.00000"));
                     break;
 
                 case Optimization:
@@ -280,7 +280,7 @@ namespace Truss2D.Shell
         public void PrintInternalForce(decimal? internalForce)
         {
             Print(internalForce == null ? "Unknown ..." :
-            internalForce.Value.ToString("0.##"));
+            internalForce.Value.ToString("0.00"));
 
         }
 
