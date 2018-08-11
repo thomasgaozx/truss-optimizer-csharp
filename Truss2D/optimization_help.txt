@@ -7,14 +7,63 @@ Unlike regular truss calculator, optimization mode
 does not account for bad truss buildings (e.g. 
 extra joints, overlapping joints, etc.), make sure
 that the truss works in Regular Mode before 
-proceeding to use optimization mode. It is 
-recommended that you write the commands in a text 
-file, save the file and paste it to the 
+proceeding to use optimization mode. Also, take 
+care of the the support reactions of each joint 
+yourself, the support reactions must not change 
+during the optimization, it is adviced that you
+calculate it yourself. Alternatively, you can solve 
+the support reactions in regular mode, record the
+value, and then enter them as force exerted on a 
+joint instead.
+
+It is recommended that you write the commands in a text 
+file, save the file and paste the shell script to the 
 optimization mode (or an empty console app).
+
+For a sample workflow / script of optimization, check
+"SampleOTruss.txt". Select all, copy, and paste it
+into the console shell.
+
+If you are unsure how to use the optimization features.
+Find "OptimizationScript.txt", select all, copy, and 
+paste it into the console shell.
+
+The detailed cost and length constraints could be 
+found in "Constraints.json". You could reset the values
+there.
+
+For a regular optimization, the terminologies are listed
+below:
+	Depth: the radius around each free joint that the probe
+		will occur.
+	Triangular Optimization, checks 3 points around the joint
+		with radius given as "Depth". Should use when there are
+		more than 3 joints. (Otherwise the program will run
+		for a LONG time).
+	Tetrahedral Optimization, checks 4 points around the joint
+		with given Depth.
+	Pentagonal Optimization, checks 5 points around the joint 
+		with given Depth.
+	N-gular Optimization, checks N points around hte joint with 
+		given Depth. For N<100, it works reasonably well with 2 
+		free joints. DO NOT try this with 4 or more free joints.
+	Grid Optimization: checks the 9 grids surrounding the center
+		grid with distance between each point being the Depth.
+	Iteration: for each iteration. the free joints are moved to the
+		probed position that gives the cheapest cost out of all the
+		combinations of points around each joint. If no progress is
+		made, i.e., the cost cannot be burnt down further, the 
+		iteration terminates. But a different optimization geometry
+		or different depth could be tried.
+
 
 Here are a few core commands of the Optimization
 Mode:
-'add': same as in regular mode.
+'add': same as in regular mode. 
+	NEW in v1.0.7: for each free joint, use '-f' to indicate that the 
+	joint is free to move.
+	Without '-f', no joints will be moved and the optimization will have
+	do nothing at all.
 'link': same as in regular mode.
 'exert': same as in regular mode.
 'op': starts optimization.
@@ -28,12 +77,8 @@ Mode:
 'newcoord': see all new coordinates after optimization.
 'cost': see current cost.
 'works': see if the current truss works or not.
+'quit': quits the optimization mode. Return to regular mode.
 
-Optimization level are listed below:
-	Level 1: 1
-	Level 2: 0.5
-	Level 3: 0.2
-	Level 4: 0.1
-	Level 5: 0.05
-	Level 6: 0.02
-	Level 7: 0.01
+NOTE: nothing will be saved in optimization mode, the truss 
+data will be prompty destroyed as you quit the optimization
+mode.

@@ -1,0 +1,21 @@
+﻿beast-mode
+add
+0 0
+3 0
+6 0
+9 0
+12 0
+15 0
+1 -12 -f
+6 -15 -f
+12 -11 -f
+
+link ab bc cd de ef ag bg cg ch dh di ei fi gh hi
+exert a 0 9
+exert b 0 -4.5
+exert c 0 -4.5
+exert d 0 -4.5
+exert e 0 -4.5
+exert f 0 9
+cost
+newcoord

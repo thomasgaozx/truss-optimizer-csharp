@@ -5,6 +5,8 @@ using Truss2D;
 using Truss2D.Math;
 using Truss2D.Shell;
 using Truss2D.Simulator;
+using Newtonsoft.Json;
+using System.IO;
 
 /// <summary>
 /// Assume that the force and support does not change and acts
@@ -71,6 +73,16 @@ namespace Truss2D.Optimization
 
     public class OTruss
     {
+        private static readonly ConstraintValues constraints // intended as a singleton
+            = JsonConvert.DeserializeObject<ConstraintValues>(
+                File.ReadAllText("Constraints.json")); 
+
+        private static readonly decimal JointCost = constraints.JointCost;
+        private static readonly decimal CostPerMeter = constraints.MemberCostPerMeter;
+        private static readonly decimal MinimumMemberLength = constraints.MinimumLength;
+        private static readonly decimal MinForce = -1*constraints.MaximumMemberCompression;
+        private static readonly decimal MaxForce = constraints.MaximumMemberTension;
+
 
         private List<Joint> joints;
         private List<char> freeJoints;
@@ -114,11 +126,7 @@ namespace Truss2D.Optimization
             GetJoint(a).AddReaction(new Vector(x, y));
         }        
 
-        private const decimal JointCost = 5;
-        private const decimal CostPerMeter = 10;
-        private const decimal MinimumMemberLength = 1;
-        private const decimal MinForce = -9;
-        private const decimal MaxForce = 12;
+
 
         public int NumOfJoints => joints.Count;
 

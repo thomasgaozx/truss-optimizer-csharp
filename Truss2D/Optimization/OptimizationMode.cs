@@ -43,9 +43,9 @@ namespace Truss2D.Optimization
                 string[] welcome = File.ReadAllLines("optimization_help.txt");
                 foreach (string line in welcome)
                 {
-                    Print(line);
+                    PrintWarning(line);
                 }
-                Print(LineBreak);
+                PrintWarning(LineBreak);
             }
             catch (Exception) { }
         }
@@ -146,7 +146,7 @@ namespace Truss2D.Optimization
             truss.AddJoint(newJoint, isFree);
 
             ClearLine();
-            PrintWarning("Joint " + (char)('A' + truss.NumOfJoints - 1) + $" ({ newJoint.X.ToString("0.##")}, { newJoint.Y.ToString("0.##")}){(isFree?" [FREE]":"")}");
+            //PrintWarning("Joint " + (char)('A' + truss.NumOfJoints - 1) + $" ({ newJoint.X.ToString("0.##")}, { newJoint.Y.ToString("0.##")}){(isFree?" [FREE]":"")}");
             return true;
 
         }

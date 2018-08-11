@@ -1,0 +1,7 @@
+﻿{
+  "JointCost": "5",
+  "MemberCostPerMeter": "10",
+  "MinimumLength": "1",
+  "MaximumMemberTension": "12",
+  "MaximumMemberCompression":"9"
+}
