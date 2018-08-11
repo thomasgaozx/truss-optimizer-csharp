@@ -9,7 +9,7 @@ using System.IO;
 
 namespace Truss2D.Optimization
 {
-    public class OptimizationMode
+    public class OCommandProcessor
     {
         private static OTruss truss;
 
@@ -24,7 +24,7 @@ namespace Truss2D.Optimization
         public const string Octagon = "oct";
         public const string Grid = "grid";
 
-        public OptimizationMode()
+        public OCommandProcessor()
         {
             truss = new OTruss();
         }

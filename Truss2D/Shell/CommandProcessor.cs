@@ -218,7 +218,7 @@ namespace Truss2D.Shell
                     break;
 
                 case Optimization:
-                    new OptimizationMode().Start();
+                    new OCommandProcessor().Start();
                     break;
 
                 default:

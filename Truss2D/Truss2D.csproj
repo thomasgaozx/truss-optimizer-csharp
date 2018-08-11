@@ -48,9 +48,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConstraintValues.cs" />
-    <Compile Include="Optimization\OptimizationMode.cs" />
-    <Compile Include="Optimization\OSolver.cs" />
-    <Compile Include="Optimization\OTruss.cs" />
+    <Compile Include="Optimization Mode\OCommandProcessor.cs" />
+    <Compile Include="Optimization Mode\OSolver.cs" />
+    <Compile Include="Optimization Mode\OTruss.cs" />
     <Compile Include="Shell\CommandProcessor.cs" />
     <Compile Include="Shell\ConsoleFormat.cs" />
     <Compile Include="Shell\Messages.Designer.cs">
