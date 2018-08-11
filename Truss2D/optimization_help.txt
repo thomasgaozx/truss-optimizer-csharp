@@ -62,8 +62,8 @@ Mode:
 'add': same as in regular mode. 
 	NEW in v1.0.7: for each free joint, use '-f' to indicate that the 
 	joint is free to move.
-	Without '-f', no joints will be moved and the optimization will have
-	do nothing at all.
+	Without at least 1 '-f', no joints will be moved and the optimization
+	command will do nothing at all.
 'link': same as in regular mode.
 'exert': same as in regular mode.
 'op': starts optimization.

@@ -67,8 +67,8 @@ namespace Truss2D.Optimization
             }
             catch (Exception e)
             {
-                PrintWarning("An error occurred ...\n" + e.Message);
-                PrintDanger($"\n{e.Source}\n\n{e.StackTrace}");
+                PrintWarning("An error occurred ...");
+                PrintDanger(e.Message);
             }
 
             return true;

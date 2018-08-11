@@ -60,12 +60,12 @@ namespace Truss2D
             }
             catch (CommandProcessor.ArgException a)
             {
-                Print(a.Message);
+                PrintDanger(a.Message);
             }
             catch (Exception e)
             {
-                PrintWarning("An error occurred ...\n"+e.Message);
-                PrintDanger($"\n{e.Source}\n\n{e.StackTrace}");
+                PrintWarning("An error occurred ...\n");
+                PrintDanger(e.Message);
             }
 
             return true;
